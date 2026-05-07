@@ -1,0 +1,6 @@
+geopandas
+requests
+shapely
+pyogrio
+rasterio
+ezdxf
