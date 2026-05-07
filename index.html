@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parcel GPKG Workflow – Blender Add-on</title>
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan:      #00b4d8;
+      --cyan-dark: #0096b7;
+      --cyan-glow: rgba(0, 180, 216, 0.18);
+      --bg:        #0d1117;
+      --bg2:       #161b22;
+      --bg3:       #1c2330;
+      --border:    rgba(0, 180, 216, 0.18);
+      --text:      #c9d1d9;
+      --text-dim:  #8b949e;
+      --white:     #f0f6fc;
+      --green:     #3fb950;
+      --orange:    #f0883e;
+      --purple:    #a371f7;
+      --red:       #f85149;
+      --radius:    12px;
+      --shadow:    0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: var(--cyan); text-decoration: none; transition: color .2s; }
+    a:hover { color: #48cae4; text-decoration: underline; }
+
+    /* ─── Nav ──────────────────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(13, 17, 23, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 700; font-size: 1rem; color: var(--white);
+      letter-spacing: .04em;
+    }
+    .nav-logo span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--text-dim); font-size: .9rem; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--cyan); text-decoration: none; }
+
+    /* ─── Sections ─────────────────────────────────────────────────────── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1040px; margin: 0 auto; }
+    .section-label {
+      font-size: .75rem; font-weight: 700; letter-spacing: .12em;
+      color: var(--cyan); text-transform: uppercase; margin-bottom: .75rem;
+    }
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--white); font-weight: 700; margin-bottom: 1rem;
+    }
+    .lead {
+      color: var(--text-dim); font-size: 1.05rem;
+      max-width: 680px; margin-bottom: 2.5rem;
+    }
+
+    /* ─── Hero ─────────────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%,
+          rgba(0,180,216,.22) 0%, transparent 70%),
+        var(--bg);
+      padding-top: 56px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0,180,216,.12);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: .78rem; font-weight: 600; letter-spacing: .08em;
+      color: var(--cyan); padding: .35rem 1rem; margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+    #hero h1 {
+      font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+      font-weight: 800; color: var(--white);
+      line-height: 1.15; margin-bottom: 1.25rem;
+      letter-spacing: -.02em;
+    }
+    #hero h1 span { color: var(--cyan); }
+    #hero p {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--text-dim); max-width: 620px; margin: 0 auto 2.5rem;
+    }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ─── Buttons ──────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.75rem; border-radius: var(--radius);
+      font-size: .95rem; font-weight: 600; cursor: pointer;
+      border: none; transition: all .2s; text-decoration: none !important;
+    }
+    .btn-primary {
+      background: var(--cyan); color: #000;
+      box-shadow: 0 0 20px rgba(0,180,216,.35);
+    }
+    .btn-primary:hover {
+      background: #48cae4; transform: translateY(-2px);
+      box-shadow: 0 0 32px rgba(0,180,216,.5);
+    }
+    .btn-outline {
+      background: transparent; color: var(--cyan);
+      border: 1.5px solid var(--cyan);
+    }
+    .btn-outline:hover {
+      background: var(--cyan-glow); transform: translateY(-2px);
+    }
+    .btn-green {
+      background: var(--green); color: #000;
+      box-shadow: 0 0 20px rgba(63,185,80,.3);
+      width: 100%; justify-content: center; font-size: 1rem; padding: 1rem 2rem;
+    }
+    .btn-green:hover {
+      background: #56d364; transform: translateY(-2px);
+      box-shadow: 0 0 32px rgba(63,185,80,.45);
+    }
+
+    /* ─── Feature Grid ─────────────────────────────────────────────────── */
+    #features { background: var(--bg); }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem; margin-top: 2rem;
+    }
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .feature-card:hover {
+      border-color: rgba(0,180,216,.5);
+      box-shadow: 0 4px 24px rgba(0,180,216,.12);
+    }
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--cyan-glow);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1rem;
+    }
+    .feature-card h3 { color: var(--white); font-size: 1rem; margin-bottom: .5rem; }
+    .feature-card p  { color: var(--text-dim); font-size: .9rem; }
+
+    /* ─── PDF Highlight Box ─────────────────────────────────────────────── */
+    .pdf-highlight {
+      background: linear-gradient(135deg, rgba(0,180,216,.1), rgba(63,185,80,.08));
+      border: 1px solid rgba(0,180,216,.35);
+      border-radius: var(--radius);
+      padding: 1.75rem 2rem;
+      margin-top: 2.5rem;
+      display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;
+    }
+    .pdf-highlight-icon { font-size: 3rem; flex-shrink: 0; }
+    .pdf-highlight h3 { color: var(--white); font-size: 1.15rem; margin-bottom: .4rem; }
+    .pdf-highlight p  { color: var(--text-dim); font-size: .92rem; }
+    .pdf-highlight ul {
+      color: var(--text-dim); font-size: .88rem;
+      padding-left: 1.2rem; margin-top: .5rem;
+    }
+    .pdf-highlight ul li { margin-bottom: .2rem; }
+
+    /* ─── Audience Cards ───────────────────────────────────────────────── */
+    #audience { background: var(--bg2); }
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem; margin-top: 2rem;
+    }
+    .audience-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      position: relative; overflow: hidden;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .audience-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,180,216,.07) 0%, transparent 60%);
+    }
+    .audience-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .audience-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .audience-card h3 { color: var(--white); font-size: 1.1rem; margin-bottom: .6rem; }
+    .audience-card p  { color: var(--text-dim); font-size: .9rem; }
+
+    /* ─── Requirements ─────────────────────────────────────────────────── */
+    #requirements { background: var(--bg); }
+    .req-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem; margin-top: 2rem;
+    }
+    .req-item {
+      display: flex; align-items: flex-start; gap: .75rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+    .req-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--cyan); margin-top: .4rem; flex-shrink: 0;
+    }
+    .req-item strong { color: var(--white); font-size: .95rem; display: block; }
+    .req-item span   { color: var(--text-dim); font-size: .82rem; }
+    .req-note {
+      margin-top: 1.5rem; padding: 1rem 1.25rem;
+      background: rgba(240,136,62,.08);
+      border: 1px solid rgba(240,136,62,.3);
+      border-radius: 10px;
+      color: var(--text-dim); font-size: .88rem;
+    }
+    .req-note strong { color: var(--orange); }
+
+    /* ─── Download ─────────────────────────────────────────────────────── */
+    #download { background: var(--bg2); }
+    .download-box {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem 2.5rem;
+      box-shadow: var(--shadow);
+    }
+    .already-installed {
+      display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1.75rem;
+    }
+    .toggle-btn {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--text-dim); font-size: .82rem; font-weight: 500;
+      padding: .35rem .9rem; cursor: pointer;
+      transition: all .2s;
+    }
+    .toggle-btn:hover  { border-color: var(--cyan); color: var(--cyan); }
+    .toggle-btn.active {
+      background: var(--cyan-glow); border-color: var(--cyan); color: var(--cyan);
+    }
+    .download-items { display: flex; flex-direction: column; gap: .75rem; margin-bottom: 1.75rem; }
+    .dl-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: .9rem 1.1rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color .2s, opacity .25s;
+      cursor: pointer;
+    }
+    .dl-item:hover { border-color: rgba(0,180,216,.45); }
+    .dl-item.disabled { opacity: .38; pointer-events: none; }
+    .dl-item input[type="checkbox"] {
+      width: 18px; height: 18px; accent-color: var(--cyan);
+      cursor: pointer; flex-shrink: 0;
+    }
+    .dl-item-info { flex: 1; }
+    .dl-item-name  { color: var(--white); font-size: .95rem; font-weight: 500; }
+    .dl-item-desc  { color: var(--text-dim); font-size: .8rem; margin-top: .15rem; }
+    .dl-item-badge {
+      font-size: .72rem; font-weight: 700; padding: .2rem .55rem;
+      border-radius: 999px; border: 1px solid; flex-shrink: 0;
+    }
+    .badge-required { color: var(--cyan);   border-color: var(--cyan);   background: rgba(0,180,216,.1); }
+    .badge-optional { color: var(--purple); border-color: var(--purple); background: rgba(163,113,247,.1); }
+    .badge-addon    { color: var(--green);  border-color: var(--green);  background: rgba(63,185,80,.1); }
+
+    .download-note {
+      color: var(--text-dim); font-size: .82rem;
+      background: rgba(0,180,216,.07);
+      border: 1px solid rgba(0,180,216,.18);
+      border-radius: 8px; padding: .65rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ─── Install Steps ────────────────────────────────────────────────── */
+    #install { background: var(--bg); }
+    .steps { display: flex; flex-direction: column; gap: 1px; margin-top: 2rem; }
+    .step {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 1.5rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      transition: border-color .2s;
+    }
+    .step:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+    .step:last-child  { border-radius: 0 0 var(--radius) var(--radius); }
+    .step:hover { border-color: rgba(0,180,216,.4); }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--cyan-glow); border: 1.5px solid var(--cyan);
+      color: var(--cyan); font-weight: 700; font-size: .9rem;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-body h3  { color: var(--white); font-size: 1rem; margin-bottom: .35rem; }
+    .step-body p   { color: var(--text-dim); font-size: .88rem; }
+    .step-body code {
+      display: inline-block;
+      background: rgba(0,0,0,.4); border: 1px solid var(--border);
+      border-radius: 6px; padding: .15rem .5rem;
+      font-family: "SF Mono", "Fira Code", Consolas, monospace;
+      font-size: .82rem; color: var(--cyan); margin-top: .35rem;
+    }
+
+    /* ─── Workflow Steps ───────────────────────────────────────────────── */
+    #workflow { background: var(--bg2); }
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem; margin-top: 2rem;
+      counter-reset: wf-counter;
+    }
+    .wf-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: relative;
+      counter-increment: wf-counter;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .wf-card:hover {
+      border-color: rgba(0,180,216,.5);
+      box-shadow: 0 4px 24px rgba(0,180,216,.1);
+    }
+    .wf-card::before {
+      content: counter(wf-counter);
+      position: absolute; top: 1rem; right: 1rem;
+      font-size: 2rem; font-weight: 800;
+      color: rgba(0,180,216,.12); line-height: 1;
+    }
+    .wf-icon { font-size: 1.6rem; margin-bottom: .75rem; }
+    .wf-card h3 { color: var(--white); font-size: .95rem; margin-bottom: .4rem; }
+    .wf-card p  { color: var(--text-dim); font-size: .85rem; }
+
+    /* ─── Screenshots ──────────────────────────────────────────────────── */
+    #screenshots { background: var(--bg); }
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem; margin-top: 2rem;
+    }
+    .screenshot-placeholder {
+      background: var(--bg3);
+      border: 2px dashed rgba(0,180,216,.3);
+      border-radius: var(--radius);
+      aspect-ratio: 16/10;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: .6rem;
+      color: var(--text-dim); text-align: center; padding: 1.5rem;
+      transition: border-color .2s;
+    }
+    .screenshot-placeholder:hover { border-color: rgba(0,180,216,.6); }
+    .screenshot-placeholder .ph-icon  { font-size: 2rem; opacity: .5; }
+    .screenshot-placeholder .ph-title { color: var(--text); font-size: .9rem; font-weight: 500; }
+    .screenshot-placeholder .ph-sub   { font-size: .78rem; }
+
+    /* ─── Footer ───────────────────────────────────────────────────────── */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem; text-align: center;
+      color: var(--text-dim); font-size: .85rem;
+    }
+    .footer-grid {
+      display: flex; flex-wrap: wrap; justify-content: space-between;
+      align-items: center; gap: 1rem; max-width: 1040px; margin: 0 auto;
+    }
+    .footer-brand { font-weight: 700; color: var(--white); }
+    .footer-brand span { color: var(--cyan); }
+    .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { color: var(--text-dim); }
+    .footer-links a:hover { color: var(--cyan); }
+
+    /* ─── Divider ──────────────────────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* ─── Responsive ───────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      nav .nav-links { display: none; }
+      section { padding: 3.5rem 1.25rem; }
+      .download-box { padding: 1.25rem; }
+      .step { flex-direction: column; gap: .75rem; }
+      .pdf-highlight { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo">Parcel <span>GPKG Workflow</span></div>
+  <ul class="nav-links">
+    <li><a href="#features">Funktionen</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#download">Download</a></li>
+    <li><a href="#install">Installation</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-badge">Blender Add-on v1.0.0 · Open Source · BFH Projekt</div>
+    <h1>Parcel GPKG<br /><span>Workflow</span></h1>
+    <p>Automatische Grenzabstandsprüfung von Baugesuchen direkt in Blender –
+       georeferenziert mit Schweizer Parzellendaten, OEREB-Integration
+       und PDF-Bericht auf Knopfdruck.</p>
+    <div class="hero-buttons">
+      <a href="#download" class="btn btn-primary">
+        ⬇ Jetzt herunterladen
+      </a>
+      <a href="https://PLATZHALTER-GITLAB-WIKI-URL" target="_blank" rel="noopener"
+         class="btn btn-outline">
+        📖 Dokumentation
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     FEATURES
+══════════════════════════════════════════════════════════════════════ -->
+<section id="features">
+  <div class="container">
+    <p class="section-label">Was das Add-on kann</p>
+    <h2>Vier integrierte Module</h2>
+    <p class="lead">
+      Das Add-on kombiniert Geodaten-Konvertierung, OEREB-Abfragen,
+      swisstopo-Umgebung und automatischen Grenzcheck in einer
+      zentralen Oberfläche im Blender N-Panel (Tab <strong style="color:var(--white)">«Parcel»</strong>).
+    </p>
+    <div class="feature-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3>Parzellen-Workflow</h3>
+        <p>Konvertiert GeoPackages (GPKG) zu GeoJSON und importiert
+           Parzellengeometrien korrekt georeferenziert in LV95.
+           Automatische OEREB-Abfrage liefert Zoneninformationen
+           und Gemeindeadresse zur EGRID.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📐</div>
+        <h3>Grenzabstand-Check</h3>
+        <p>Zweistufige Prüfung: grosser Grenzabstand (Hauptwohnseite)
+           und kleiner Grenzabstand (übrige Seiten). Farbige
+           3D-Visualisierung direkt im Viewport – grün = eingehalten,
+           rot = Unterschreitung.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>Swiss Context</h3>
+        <p>Lädt automatisch Gelände, Gebäude und Strassen von
+           swisstopo-Diensten. Schneller Wechsel zwischen
+           Landeskarten- und Satellitenbild-Textur per Toggle.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🏗️</div>
+        <h3>IFC Import &amp; Bereinigung</h3>
+        <p>Optimierter IFC-Import via IfcOpenShell. Entfernt auf
+           Wunsch Geländeelemente aus dem IFC-Modell, um Duplikate
+           mit dem Swiss-Context-Terrain zu vermeiden.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🐳</div>
+        <h3>Docker-basierte Pipeline</h3>
+        <p>Komplexe Geo-Pipelines (GDAL, Python-Dependencies) laufen
+           isoliert im Docker-Container – unabhängig von der lokalen
+           Blender-Python-Umgebung.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📍</div>
+        <h3>LV95 &amp; EGRID</h3>
+        <p>Vollständige Unterstützung des Schweizer
+           Landeskoordinatensystems LV95. Parzellen werden
+           EGRID-basiert identifiziert und abgefragt.</p>
+      </div>
+
+    </div>
+
+    <!-- PDF highlight -->
+    <div class="pdf-highlight">
+      <div class="pdf-highlight-icon">📄</div>
+      <div>
+        <h3>PDF-Bericht auf Knopfdruck</h3>
+        <p>Nach dem Grenzcheck generiert das Add-on automatisch einen
+           vollständigen Prüfbericht als PDF-Datei:</p>
+        <ul>
+          <li>Datum, EGRID, Adresse, Gemeinde, Nutzungszone</li>
+          <li>Alle gemessenen Abstände pro Nachbarparzelle (in Metern)</li>
+          <li>Hauptwohnseite mit grossem Grenzabstand hervorgehoben</li>
+          <li>Farbiger Viewport-Screenshot der Visualisierung</li>
+          <li>Klares POSITIV / NEGATIV Prüfresultat</li>
+        </ul>
+        <p style="margin-top:.5rem; font-size:.82rem;">
+          Gespeichert unter <code style="background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:5px;padding:.1rem .4rem;font-family:monospace;color:var(--cyan)">Protokolle/Grenzcheck-Berichte/</code> im Projektordner
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     AUDIENCE
+══════════════════════════════════════════════════════════════════════ -->
+<section id="audience">
+  <div class="container">
+    <p class="section-label">Für wen?</p>
+    <h2>Das Add-on richtet sich an</h2>
+    <p class="lead">
+      Alle, die frühzeitig und reproduzierbar prüfen möchten, ob ein
+      Gebäudeentwurf die kantonalen Grenzabstandsvorschriften einhält.
+    </p>
+    <div class="audience-grid">
+      <div class="audience-card">
+        <div class="audience-icon">🏛️</div>
+        <h3>Architekten</h3>
+        <p>Vorprüfung vor Einreichung des Baugesuchs – Fehler frühzeitig
+           erkennen und Überarbeitungsrunden reduzieren.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">📏</div>
+        <h3>Planer &amp; Ingenieure</h3>
+        <p>Schnelle Kontrolle während der Planungsphase ohne manuelle
+           Abstandsmessungen im CAD oder GIS.</p>
+      </div>
+      <div class="audience-card">
+        <div class="audience-icon">🏢</div>
+        <h3>Behörden</h3>
+        <p>Reproduzierbare, automatisierte Erstprüfung von Baugesuchen
+           mit dokumentiertem PDF-Bericht als Prüfprotokoll.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     REQUIREMENTS
+══════════════════════════════════════════════════════════════════════ -->
+<section id="requirements">
+  <div class="container">
+    <p class="section-label">Voraussetzungen</p>
+    <h2>Was du brauchst</h2>
+    <p class="lead">Das Add-on setzt folgende Software voraus – alles kostenlos verfügbar.</p>
+    <div class="req-list">
+      <div class="req-item">
+        <div class="req-dot"></div>
+        <div>
+          <strong>Blender 3.6.0 oder neuer</strong>
+          <span>3D-Software als Basis (auch 4.x / 5.x)</span>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-dot"></div>
+        <div>
+          <strong>Docker Desktop</strong>
+          <span>Zwingend erforderlich für die Geo-Pipeline</span>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-dot"></div>
+        <div>
+          <strong>IFC-Modell in LV95</strong>
+          <span>Georeferenziertes Gebäudemodell als .ifc Datei</span>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-dot"></div>
+        <div>
+          <strong>Parzellendaten</strong>
+          <span>Als GeoPackage (.gpkg) oder GeoJSON</span>
+        </div>
+      </div>
+      <div class="req-item">
+        <div class="req-dot"></div>
+        <div>
+          <strong>EGRID-Nummer</strong>
+          <span>Parzellen-Identifikator (Format: CH + 12 Ziffern)</span>
+        </div>
+      </div>
+    </div>
+    <div class="req-note">
+      <strong>⚠ Docker ist zwingend!</strong> Einige Kernfunktionen (Datenaufbereitung,
+      GPKG-Konvertierung) laufen über Docker-Container. Docker Desktop muss im
+      Hintergrund laufen, bevor das Add-on verwendet wird. Dein Benutzer muss
+      über die nötigen Rechte verfügen, Docker-Befehle auszuführen.
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     DOWNLOAD
+══════════════════════════════════════════════════════════════════════ -->
+<section id="download">
+  <div class="container">
+    <p class="section-label">Download</p>
+    <h2>Alles auf einmal herunterladen</h2>
+    <p class="lead">
+      Wähle ab, was du bereits installiert hast – dann lädt der Button
+      nur das herunter, was du noch brauchst.
+    </p>
+
+    <div class="download-box">
+
+      <div style="margin-bottom:.5rem; color:var(--text-dim); font-size:.82rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase;">
+        Bereits installiert?
+      </div>
+      <div class="already-installed">
+        <button class="toggle-btn" id="toggle-blender"
+                onclick="toggleInstalled('blender', this)">
+          ✓ Blender bereits installiert
+        </button>
+        <button class="toggle-btn" id="toggle-docker"
+                onclick="toggleInstalled('docker', this)">
+          ✓ Docker bereits installiert
+        </button>
+      </div>
+
+      <div class="download-items">
+
+        <label class="dl-item" id="item-blender">
+          <input type="checkbox" id="cb-blender" checked onchange="updateCount()" />
+          <div class="dl-item-info">
+            <div class="dl-item-name">Blender 3.6 / 4.x / 5.x</div>
+            <div class="dl-item-desc">
+              <a href="https://www.blender.org/download/" target="_blank"
+                 rel="noopener" onclick="event.stopPropagation()">
+                blender.org/download ↗
+              </a>
+            </div>
+          </div>
+          <span class="dl-item-badge badge-required">Pflicht</span>
+        </label>
+
+        <label class="dl-item" id="item-docker">
+          <input type="checkbox" id="cb-docker" checked onchange="updateCount()" />
+          <div class="dl-item-info">
+            <div class="dl-item-name">Docker Desktop</div>
+            <div class="dl-item-desc">
+              <a href="https://www.docker.com/products/docker-desktop/"
+                 target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                docker.com/products/docker-desktop ↗
+              </a>
+            </div>
+          </div>
+          <span class="dl-item-badge badge-required">Pflicht</span>
+        </label>
+
+        <label class="dl-item" id="item-container">
+          <input type="checkbox" id="cb-container" checked onchange="updateCount()" />
+          <div class="dl-item-info">
+            <div class="dl-item-name">Docker Container «Parcel»</div>
+            <div class="dl-item-desc">
+              Lokale Geo-Pipeline (GDAL, Python-Dependencies) ·
+              <span style="color:var(--text-dim)">Platzhalter-Link</span>
+            </div>
+          </div>
+          <span class="dl-item-badge badge-required">Pflicht</span>
+        </label>
+
+        <label class="dl-item" id="item-addon">
+          <input type="checkbox" id="cb-addon" checked onchange="updateCount()" />
+          <div class="dl-item-info">
+            <div class="dl-item-name">
+              Parcel GPKG Workflow Add-on
+              <code style="font-size:.78rem; vertical-align:middle; margin-left:.4rem;">blender_parcel_workflow_addon.py</code>
+            </div>
+            <div class="dl-item-desc">Das Blender-Add-on (v1.0.0)</div>
+          </div>
+          <span class="dl-item-badge badge-addon">Add-on</span>
+        </label>
+
+        <label class="dl-item" id="item-examples">
+          <input type="checkbox" id="cb-examples" checked onchange="updateCount()" />
+          <div class="dl-item-info">
+            <div class="dl-item-name">Beispieldaten</div>
+            <div class="dl-item-desc">
+              Parzellen-GPKG + georeferenziertes IFC-Beispielgebäude ·
+              <span style="color:var(--text-dim)">Platzhalter-Link</span>
+            </div>
+          </div>
+          <span class="dl-item-badge badge-optional">Optional</span>
+        </label>
+
+      </div>
+
+      <div class="download-note">
+        ℹ Einige Downloads öffnen externe Websites. Stelle sicher, dass dein
+        Browser Pop-ups von dieser Seite erlaubt.
+      </div>
+
+      <button class="btn btn-green" id="dl-button" onclick="downloadAll()">
+        ⬇ Ausgewähltes herunterladen (<span id="dl-count">5</span>)
+      </button>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     WORKFLOW
+══════════════════════════════════════════════════════════════════════ -->
+<section id="workflow">
+  <div class="container">
+    <p class="section-label">Typischer Ablauf</p>
+    <h2>Von der Parzelle zum PDF-Bericht</h2>
+    <p class="lead">
+      Der empfohlene Arbeitsablauf im Tab <strong style="color:var(--white)">«Parcel»</strong> des N-Panels.
+    </p>
+    <div class="workflow-grid">
+      <div class="wf-card">
+        <div class="wf-icon">📁</div>
+        <h3>Projektordner wählen</h3>
+        <p>Arbeitsverzeichnis festlegen – dort werden auch die PDF-Berichte abgelegt.</p>
+      </div>
+      <div class="wf-card">
+        <div class="wf-icon">🔑</div>
+        <h3>EGRID eingeben</h3>
+        <p>Parzellen-ID eingeben (CH + 12 Ziffern) oder GPKG-Quelldatei wählen.</p>
+      </div>
+      <div class="wf-card">
+        <div class="wf-icon">🐳</div>
+        <h3>Docker-Aktion starten</h3>
+        <p>GPKG → GeoJSON Konvertierung via Docker-Container ausführen.</p>
+      </div>
+      <div class="wf-card">
+        <div class="wf-icon">🗺️</div>
+        <h3>Parzelle importieren</h3>
+        <p>Parzellengeometrien werden georeferenziert in LV95 geladen. OEREB-Daten folgen automatisch.</p>
+      </div>
+      <div class="wf-card">
+        <div class="wf-icon">🌍</div>
+        <h3>Swiss Context laden</h3>
+        <p>Gelände, Gebäude und Strassen von swisstopo für den Kontext hinzufügen.</p>
+      </div>
+      <div class="wf-card">
+        <div class="wf-icon">🏗️</div>
+        <h3>IFC importieren</h3>
+        <p>Gebäudemodell laden, optional vorhandene Geländeelemente entfernen.</p>
+      </div>
+      <div class="wf-card">
+        <div class="wf-icon">📐</div>
+        <h3>Grenzcheck ausführen</h3>
+        <p>Grenzabstände werden berechnet und farbig im Viewport visualisiert.</p>
+      </div>
+      <div class="wf-card">
+        <div class="wf-icon">📄</div>
+        <h3>PDF-Bericht exportieren</h3>
+        <p>Vollständiges Prüfprotokoll inkl. Viewport-Screenshot als PDF speichern.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     INSTALLATION
+══════════════════════════════════════════════════════════════════════ -->
+<section id="install">
+  <div class="container">
+    <p class="section-label">Installationsanleitung</p>
+    <h2>In 5 Schritten startklar</h2>
+    <p class="lead">Folge diesen Schritten – das Add-on ist in wenigen Minuten einsatzbereit.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Blender installieren</h3>
+          <p>Lade Blender 3.6.0 oder neuer (inkl. 4.x / 5.x) von
+             <a href="https://www.blender.org/download/" target="_blank"
+                rel="noopener">blender.org/download</a> herunter und installiere es.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Docker installieren und starten</h3>
+          <p>Installiere
+             <a href="https://www.docker.com/products/docker-desktop/" target="_blank"
+                rel="noopener">Docker Desktop</a>
+             (Windows / Mac) bzw. Docker Engine (Linux).
+             Starte Docker und stelle sicher, dass es im Hintergrund läuft –
+             das Add-on prüft dies beim Start.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Docker-Container «Parcel» bereitstellen</h3>
+          <p>Lade den Container herunter und starte ihn gemäss
+             <a href="https://PLATZHALTER-GITLAB-WIKI-URL" target="_blank"
+                rel="noopener">Wiki-Dokumentation</a>.
+             Das Add-on steuert den Container direkt über die Docker-Aktionen
+             im Panel.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Add-on in Blender installieren</h3>
+          <p>Öffne Blender und navigiere zu:</p>
+          <code>Edit → Preferences → Add-ons → Install</code>
+          <p style="margin-top:.5rem;">
+            Wähle die Datei <code>blender_parcel_workflow_addon.py</code> aus
+            und aktiviere das Add-on mit dem Häkchen neben
+            <em>«Parcel GPKG Workflow»</em>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h3>Add-on verwenden</h3>
+          <p>Im 3D-Viewport das N-Panel öffnen
+             (<code>N</code> drücken) und den Tab
+             <code>Parcel</code> anwählen.
+             Projektordner und EGRID eingeben – dann loslegen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     SCREENSHOTS
+══════════════════════════════════════════════════════════════════════ -->
+<section id="screenshots">
+  <div class="container">
+    <p class="section-label">Screenshots</p>
+    <h2>Das Add-on in Aktion</h2>
+    <p class="lead">Ersetze die Platzhalter durch echte Screenshots.</p>
+    <div class="screenshot-grid">
+      <div class="screenshot-placeholder">
+        <div class="ph-icon">🖼️</div>
+        <div class="ph-title">Blender Viewport – Grenzcheck-Visualisierung</div>
+        <div class="ph-sub">Farbige Parzellenflächen: grün / rot / gelb (Hauptwohnseite)</div>
+      </div>
+      <div class="screenshot-placeholder">
+        <div class="ph-icon">🖼️</div>
+        <div class="ph-title">N-Panel Tab «Parcel»</div>
+        <div class="ph-sub">Projektordner, EGRID, Docker-Aktionen, Check-Button</div>
+      </div>
+      <div class="screenshot-placeholder">
+        <div class="ph-icon">🖼️</div>
+        <div class="ph-title">Beispiel PDF-Bericht</div>
+        <div class="ph-sub">Abstände in Metern, POSITIV / NEGATIV Prüfresultat, Viewport-Screenshot</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">Parcel <span>GPKG Workflow</span></div>
+    <div class="footer-links">
+      <a href="https://PLATZHALTER-GITLAB-WIKI-URL" target="_blank"
+         rel="noopener">Dokumentation</a>
+      <a href="#download">Download</a>
+      <a href="#install">Installation</a>
+    </div>
+    <div style="color:var(--text-dim); font-size:.8rem;">
+      BFH Informatikprojekt · Open Source
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════════════════════ -->
+<script>
+  const DOWNLOADS = {
+    blender:   { url: 'https://www.blender.org/download/',                 direct: false },
+    docker:    { url: 'https://www.docker.com/products/docker-desktop/',   direct: false },
+    container: { url: 'https://PLATZHALTER-DOCKER-CONTAINER-LINK',         direct: false },
+    addon:     { url: 'Add-On/blender_parcel_workflow_addon.py',           direct: true  },
+    examples:  { url: 'https://PLATZHALTER-BEISPIELDATEN-LINK',            direct: false },
+  };
+
+  function toggleInstalled(key, btn) {
+    const item = document.getElementById('item-' + key);
+    const cb   = document.getElementById('cb-'   + key);
+    const isNowActive = btn.classList.toggle('active');
+    if (isNowActive) {
+      item.classList.add('disabled');
+      cb.checked = false; cb.disabled = true;
+    } else {
+      item.classList.remove('disabled');
+      cb.disabled = false; cb.checked = true;
+    }
+    updateCount();
+  }
+
+  function updateCount() {
+    const count = Object.keys(DOWNLOADS).filter(k => {
+      const cb = document.getElementById('cb-' + k);
+      return cb && cb.checked && !cb.disabled;
+    }).length;
+    document.getElementById('dl-count').textContent = count;
+  }
+
+  function downloadAll() {
+    const selected = Object.keys(DOWNLOADS).filter(k => {
+      const cb = document.getElementById('cb-' + k);
+      return cb && cb.checked && !cb.disabled;
+    });
+    if (selected.length === 0) {
+      alert('Bitte wähle mindestens einen Download aus.');
+      return;
+    }
+    selected.forEach((key, i) => {
+      const { url, direct } = DOWNLOADS[key];
+      setTimeout(() => {
+        if (direct) {
+          const a = document.createElement('a');
+          a.href = url; a.download = '';
+          document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        } else {
+          window.open(url, '_blank', 'noopener,noreferrer');
+        }
+      }, i * 400);
+    });
+  }
+
+  /* Aktiver Nav-Link beim Scrollen */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks  = document.querySelectorAll('.nav-links a');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(a => {
+          a.style.color = a.getAttribute('href') === '#' + e.target.id
+            ? 'var(--cyan)' : '';
+        });
+      }
+    });
+  }, { threshold: 0.35 });
+  sections.forEach(s => io.observe(s));
+</script>
+
+<!--
+═══════════════════════════════════════════════════════════════════════
+  HOSTING-ANLEITUNG: GitHub Pages
+═══════════════════════════════════════════════════════════════════════
+
+  1. GITHUB-REPOSITORY ERSTELLEN
+     • Gehe zu https://github.com/new
+     • Repository-Name: z. B. "parcel-gpkg-workflow"
+     • Sichtbarkeit: Public (GitHub Pages kostenlos bei Public Repos)
+     • "Create repository" klicken
+
+  2. DATEIEN HOCHLADEN
+     Option A – via Browser:
+       • Im Repo "Add file" → "Upload files" klicken
+       • index.html hochladen (und optional Add-On-Ordner)
+       • Commit-Message eingeben → "Commit changes"
+
+     Option B – via Git:
+       git clone https://github.com/DEINNAME/parcel-gpkg-workflow.git
+       cp index.html parcel-gpkg-workflow/
+       cd parcel-gpkg-workflow
+       git add index.html
+       git commit -m "Add website"
+       git push
+
+  3. GITHUB PAGES AKTIVIEREN
+     • Repository → "Settings" → linke Sidebar: "Pages"
+     • Source: "Deploy from a branch"
+     • Branch: "main" | Ordner: "/ (root)" → "Save"
+     • Nach 1–2 Minuten ist die Seite live
+
+  4. WEBSITE AUFRUFEN
+       https://DEINNAME.github.io/parcel-gpkg-workflow/
+
+  ─────────────────────────────────────────────────────────────────────
+  PLATZHALTER (vor Veröffentlichung ersetzen):
+  • "https://PLATZHALTER-GITLAB-WIKI-URL"
+  • "https://PLATZHALTER-DOCKER-CONTAINER-LINK"
+  • "https://PLATZHALTER-BEISPIELDATEN-LINK"
+  • "Add-On/blender_parcel_workflow_addon.py"
+      → Datei muss im Add-On/-Unterordner liegen, oder durch absoluten URL ersetzen
+═══════════════════════════════════════════════════════════════════════
+-->
+
+</body>
+</html>
