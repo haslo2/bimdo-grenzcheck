@@ -35,6 +35,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                    "Helvetica Neue", Arial, sans-serif;
       line-height: 1.6;
+      overflow-x: hidden;
     }
 
     a { color: var(--cyan); text-decoration: none; transition: color .2s; }
@@ -46,13 +47,13 @@
       background: rgba(13, 17, 23, 0.88);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
-      padding: 0 2rem;
+      padding: 0 1.5rem;
       height: 56px;
       display: flex; align-items: center; justify-content: space-between;
     }
     .nav-logo {
       font-weight: 700; font-size: 1rem; color: var(--white);
-      letter-spacing: .04em;
+      letter-spacing: .04em; flex-shrink: 0;
     }
     .nav-logo span { color: var(--cyan); }
     .nav-links { display: flex; gap: 1.5rem; list-style: none; }
@@ -60,6 +61,38 @@
       color: var(--text-dim); font-size: .9rem; transition: color .2s;
     }
     .nav-links a:hover { color: var(--cyan); text-decoration: none; }
+
+    /* Hamburger */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; gap: 5px; cursor: pointer;
+      background: none; border: none; padding: .5rem;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--text); border-radius: 2px;
+      transition: all .25s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile nav drawer */
+    .nav-drawer {
+      display: none;
+      position: fixed; top: 56px; left: 0; right: 0; z-index: 99;
+      background: rgba(13,17,23,.97);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem 1.5rem;
+      flex-direction: column; gap: .25rem;
+    }
+    .nav-drawer.open { display: flex; }
+    .nav-drawer a {
+      color: var(--text); font-size: 1rem; padding: .75rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-drawer a:last-child { border-bottom: none; }
+    .nav-drawer a:hover { color: var(--cyan); text-decoration: none; }
 
     /* ─── Sections ─────────────────────────────────────────────────────── */
     section { padding: 5rem 2rem; }
@@ -69,7 +102,7 @@
       color: var(--cyan); text-transform: uppercase; margin-bottom: .75rem;
     }
     h2 {
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
       color: var(--white); font-weight: 700; margin-bottom: 1rem;
     }
     .lead {
@@ -98,14 +131,14 @@
       text-transform: uppercase;
     }
     #hero h1 {
-      font-size: clamp(2.2rem, 5.5vw, 3.8rem);
+      font-size: clamp(2rem, 5.5vw, 3.8rem);
       font-weight: 800; color: var(--white);
       line-height: 1.15; margin-bottom: 1.25rem;
       letter-spacing: -.02em;
     }
     #hero h1 span { color: var(--cyan); }
     #hero p {
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-size: clamp(.95rem, 2.5vw, 1.2rem);
       color: var(--text-dim); max-width: 620px; margin: 0 auto 2.5rem;
     }
     .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
@@ -116,6 +149,7 @@
       padding: .75rem 1.75rem; border-radius: var(--radius);
       font-size: .95rem; font-weight: 600; cursor: pointer;
       border: none; transition: all .2s; text-decoration: none !important;
+      min-height: 44px;
     }
     .btn-primary {
       background: var(--cyan); color: #000;
@@ -125,17 +159,11 @@
       background: #48cae4; transform: translateY(-2px);
       box-shadow: 0 0 32px rgba(0,180,216,.5);
     }
-    .btn-outline {
-      background: transparent; color: var(--cyan);
-      border: 1.5px solid var(--cyan);
-    }
-    .btn-outline:hover {
-      background: var(--cyan-glow); transform: translateY(-2px);
-    }
     .btn-green {
       background: var(--green); color: #000;
       box-shadow: 0 0 20px rgba(63,185,80,.3);
-      width: 100%; justify-content: center; font-size: 1rem; padding: 1rem 2rem;
+      width: 100%; justify-content: center; font-size: 1rem;
+      padding: 1rem 2rem; min-height: 52px;
     }
     .btn-green:hover {
       background: #56d364; transform: translateY(-2px);
@@ -176,7 +204,7 @@
       border-radius: var(--radius);
       padding: 1.75rem 2rem;
       margin-top: 2.5rem;
-      display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;
+      display: flex; gap: 1.5rem; align-items: flex-start; flex-wrap: wrap;
     }
     .pdf-highlight-icon { font-size: 3rem; flex-shrink: 0; }
     .pdf-highlight h3 { color: var(--white); font-size: 1.15rem; margin-bottom: .4rem; }
@@ -233,12 +261,23 @@
     .req-item span   { color: var(--text-dim); font-size: .82rem; }
     .req-note {
       margin-top: 1.5rem; padding: 1rem 1.25rem;
-      background: rgba(240,136,62,.08);
-      border: 1px solid rgba(240,136,62,.3);
+      background: rgba(0,180,216,.07);
+      border: 1px solid rgba(0,180,216,.25);
       border-radius: 10px;
       color: var(--text-dim); font-size: .88rem;
     }
-    .req-note strong { color: var(--orange); }
+    .req-note strong { color: var(--cyan); }
+
+    /* ─── Docker Info-Box ───────────────────────────────────────────────── */
+    .docker-infobox {
+      background: rgba(63,185,80,.08);
+      border: 1px solid rgba(63,185,80,.3);
+      border-radius: 10px;
+      padding: .9rem 1.1rem;
+      margin-bottom: 1.5rem;
+      color: var(--text); font-size: .9rem;
+    }
+    .docker-infobox strong { color: var(--green); }
 
     /* ─── Download ─────────────────────────────────────────────────────── */
     #download { background: var(--bg2); }
@@ -249,6 +288,10 @@
       padding: 2rem 2.5rem;
       box-shadow: var(--shadow);
     }
+    .docker-note {
+      color: var(--text-dim); font-size: .88rem;
+      margin-bottom: 1.25rem;
+    }
     .already-installed {
       display: flex; flex-wrap: wrap; gap: .6rem; margin-bottom: 1.75rem;
     }
@@ -257,8 +300,8 @@
       border: 1px solid var(--border);
       border-radius: 999px;
       color: var(--text-dim); font-size: .82rem; font-weight: 500;
-      padding: .35rem .9rem; cursor: pointer;
-      transition: all .2s;
+      padding: .55rem 1rem; cursor: pointer;
+      transition: all .2s; min-height: 36px;
     }
     .toggle-btn:hover  { border-color: var(--cyan); color: var(--cyan); }
     .toggle-btn.active {
@@ -272,7 +315,7 @@
       border: 1px solid var(--border);
       border-radius: 10px;
       transition: border-color .2s, opacity .25s;
-      cursor: pointer;
+      cursor: pointer; min-height: 44px;
     }
     .dl-item:hover { border-color: rgba(0,180,216,.45); }
     .dl-item.disabled { opacity: .38; pointer-events: none; }
@@ -280,7 +323,7 @@
       width: 18px; height: 18px; accent-color: var(--cyan);
       cursor: pointer; flex-shrink: 0;
     }
-    .dl-item-info { flex: 1; }
+    .dl-item-info { flex: 1; min-width: 0; }
     .dl-item-name  { color: var(--white); font-size: .95rem; font-weight: 500; }
     .dl-item-desc  { color: var(--text-dim); font-size: .8rem; margin-top: .15rem; }
     .dl-item-badge {
@@ -327,6 +370,7 @@
       border-radius: 6px; padding: .15rem .5rem;
       font-family: "SF Mono", "Fira Code", Consolas, monospace;
       font-size: .82rem; color: var(--cyan); margin-top: .35rem;
+      word-break: break-all;
     }
 
     /* ─── Workflow Steps ───────────────────────────────────────────────── */
@@ -405,13 +449,50 @@
       background: linear-gradient(90deg, transparent, var(--border), transparent);
     }
 
-    /* ─── Responsive ───────────────────────────────────────────────────── */
-    @media (max-width: 640px) {
-      nav .nav-links { display: none; }
-      section { padding: 3.5rem 1.25rem; }
-      .download-box { padding: 1.25rem; }
+    /* ─── Responsive Mobile ────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      /* Nav: Hamburger anzeigen, Links verstecken */
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      /* Hero: kleinere Schrift */
+      #hero h1 { font-size: clamp(1.6rem, 7vw, 2rem); }
+      #hero p  { font-size: .95rem; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .hero-buttons .btn { width: 100%; max-width: 320px; justify-content: center; }
+
+      /* Sections: weniger padding */
+      section { padding: 3rem 1.25rem; }
+
+      /* Grids: einspaltig */
+      .feature-grid,
+      .audience-grid,
+      .req-list,
+      .workflow-grid,
+      .screenshot-grid { grid-template-columns: 1fr; }
+
+      /* Download Box */
+      .download-box { padding: 1.25rem 1rem; }
+      .already-installed { gap: .5rem; }
+      .toggle-btn { width: 100%; text-align: left; }
+      .dl-item { flex-wrap: wrap; gap: .75rem; }
+      .dl-item-badge { margin-left: auto; }
+
+      /* Steps: vertikal */
       .step { flex-direction: column; gap: .75rem; }
-      .pdf-highlight { flex-direction: column; }
+
+      /* PDF highlight */
+      .pdf-highlight { flex-direction: column; gap: 1rem; }
+      .pdf-highlight-icon { font-size: 2rem; }
+
+      /* Footer */
+      .footer-grid { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+    }
+
+    @media (max-width: 400px) {
+      #hero h1 { font-size: 1.6rem; }
+      .hero-badge { font-size: .7rem; }
     }
   </style>
 </head>
@@ -428,6 +509,18 @@
     <li><a href="#download">Download</a></li>
     <li><a href="#install">Installation</a></li>
   </ul>
+  <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()"
+          aria-label="Menü öffnen">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Drawer -->
+<nav class="nav-drawer" id="nav-drawer">
+  <a href="#features"  onclick="closeMenu()">Funktionen</a>
+  <a href="#workflow"  onclick="closeMenu()">Workflow</a>
+  <a href="#download"  onclick="closeMenu()">Download</a>
+  <a href="#install"   onclick="closeMenu()">Installation</a>
 </nav>
 
 <!-- ══════════════════════════════════════════════════════════════════════
@@ -443,10 +536,6 @@
     <div class="hero-buttons">
       <a href="#download" class="btn btn-primary">
         ⬇ Jetzt herunterladen
-      </a>
-      <a href="https://PLATZHALTER-GITLAB-WIKI-URL" target="_blank" rel="noopener"
-         class="btn btn-outline">
-        📖 Dokumentation
       </a>
     </div>
   </div>
@@ -601,7 +690,7 @@
         <div class="req-dot"></div>
         <div>
           <strong>Docker Desktop</strong>
-          <span>Zwingend erforderlich für die Geo-Pipeline</span>
+          <span>Nur nötig für automatische Parzellen-Datenabfrage</span>
         </div>
       </div>
       <div class="req-item">
@@ -627,10 +716,9 @@
       </div>
     </div>
     <div class="req-note">
-      <strong>⚠ Docker ist zwingend!</strong> Einige Kernfunktionen (Datenaufbereitung,
-      GPKG-Konvertierung) laufen über Docker-Container. Docker Desktop muss im
-      Hintergrund laufen, bevor das Add-on verwendet wird. Dein Benutzer muss
-      über die nötigen Rechte verfügen, Docker-Befehle auszuführen.
+      <strong>💡 Docker ist optional!</strong> Docker wird nur für die automatische
+      Parzellen-Datenabfrage benötigt. Wer die Parzellendaten bereits als GeoJSON
+      oder GPKG-Datei hat, braucht Docker nicht.
     </div>
   </div>
 </section>
@@ -649,7 +737,18 @@
       nur das herunter, was du noch brauchst.
     </p>
 
+    <div class="docker-infobox">
+      💡 <strong>Parzellendaten bereits vorhanden?</strong> Docker überspringen –
+      direkt mit Schritt 3 beginnen.
+    </div>
+
     <div class="download-box">
+
+      <p class="docker-note">
+        Docker wird nur für die automatische Parzellen-Datenabfrage benötigt.
+        Wer die Parzellendaten bereits als GeoJSON oder GPKG-Datei hat,
+        braucht Docker nicht.
+      </p>
 
       <div style="margin-bottom:.5rem; color:var(--text-dim); font-size:.82rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase;">
         Bereits installiert?
@@ -686,13 +785,14 @@
           <div class="dl-item-info">
             <div class="dl-item-name">Docker Desktop</div>
             <div class="dl-item-desc">
+              Nur nötig wenn du Parzellendaten automatisch abfragen willst ·
               <a href="https://www.docker.com/products/docker-desktop/"
                  target="_blank" rel="noopener" onclick="event.stopPropagation()">
-                docker.com/products/docker-desktop ↗
+                docker.com ↗
               </a>
             </div>
           </div>
-          <span class="dl-item-badge badge-required">Pflicht</span>
+          <span class="dl-item-badge badge-optional">Optional</span>
         </label>
 
         <label class="dl-item" id="item-container">
@@ -700,21 +800,21 @@
           <div class="dl-item-info">
             <div class="dl-item-name">Docker Container «Parcel»</div>
             <div class="dl-item-desc">
-              Lokale Geo-Pipeline (GDAL, Python-Dependencies) ·
+              Nur nötig wenn du Parzellendaten automatisch abfragen willst ·
               <span style="color:var(--text-dim)">Platzhalter-Link</span>
             </div>
           </div>
-          <span class="dl-item-badge badge-required">Pflicht</span>
+          <span class="dl-item-badge badge-optional">Optional</span>
         </label>
 
         <label class="dl-item" id="item-addon">
           <input type="checkbox" id="cb-addon" checked onchange="updateCount()" />
           <div class="dl-item-info">
             <div class="dl-item-name">
-              Parcel GPKG Workflow Add-on
+              Grenzabstand Add-on
               <code style="font-size:.78rem; vertical-align:middle; margin-left:.4rem;">blender_parcel_workflow_addon.py</code>
             </div>
-            <div class="dl-item-desc">Das Blender-Add-on (v1.0.0)</div>
+            <div class="dl-item-desc">Das Blender-Add-on – direkter Download</div>
           </div>
           <span class="dl-item-badge badge-addon">Add-on</span>
         </label>
@@ -772,7 +872,7 @@
       <div class="wf-card">
         <div class="wf-icon">🐳</div>
         <h3>Docker-Aktion starten</h3>
-        <p>GPKG → GeoJSON Konvertierung via Docker-Container ausführen.</p>
+        <p>GPKG → GeoJSON Konvertierung via Docker ausführen (nur nötig ohne eigene Parzellendaten).</p>
       </div>
       <div class="wf-card">
         <div class="wf-icon">🗺️</div>
@@ -827,36 +927,34 @@
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-body">
-          <h3>Docker installieren und starten</h3>
-          <p>Installiere
+          <h3>Docker installieren und starten (optional)</h3>
+          <p>Nur nötig wenn du Parzellendaten automatisch abfragen willst.
+             Installiere
              <a href="https://www.docker.com/products/docker-desktop/" target="_blank"
                 rel="noopener">Docker Desktop</a>
-             (Windows / Mac) bzw. Docker Engine (Linux).
-             Starte Docker und stelle sicher, dass es im Hintergrund läuft –
-             das Add-on prüft dies beim Start.</p>
+             (Windows / Mac) und starte es.
+             Wer Parzellendaten bereits als GeoJSON oder GPKG hat, kann diesen
+             Schritt überspringen.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">3</div>
         <div class="step-body">
-          <h3>Docker-Container «Parcel» bereitstellen</h3>
-          <p>Lade den Container herunter und starte ihn gemäss
-             <a href="https://PLATZHALTER-GITLAB-WIKI-URL" target="_blank"
-                rel="noopener">Wiki-Dokumentation</a>.
-             Das Add-on steuert den Container direkt über die Docker-Aktionen
-             im Panel.</p>
+          <h3>Add-on in Blender installieren</h3>
+          <p>Öffne Blender und navigiere zu:</p>
+          <code>Edit → Preferences → Add-ons → Install</code>
+          <p style="margin-top:.5rem;">
+            Wähle die heruntergeladene Datei <code>blender_parcel_workflow_addon.py</code> aus
+            und aktiviere das Add-on mit dem Häkchen.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">4</div>
         <div class="step-body">
-          <h3>Add-on in Blender installieren</h3>
-          <p>Öffne Blender und navigiere zu:</p>
-          <code>Edit → Preferences → Add-ons → Install</code>
-          <p style="margin-top:.5rem;">
-            Wähle die Datei <code>blender_parcel_workflow_addon.py</code> aus
-            und aktiviere das Add-on mit dem Häkchen neben
-            <em>«Parcel GPKG Workflow»</em>.</p>
+          <h3>Parzellendaten bereitstellen</h3>
+          <p>Lege deine Parzellendaten als GeoJSON oder GPKG-Datei bereit.
+             Ohne eigene Daten: Docker-Container «Parcel» starten und die
+             Konvertierung im Add-on-Panel auslösen.</p>
         </div>
       </div>
       <div class="step">
@@ -912,8 +1010,6 @@
   <div class="footer-grid">
     <div class="footer-brand">Parcel <span>GPKG Workflow</span></div>
     <div class="footer-links">
-      <a href="https://PLATZHALTER-GITLAB-WIKI-URL" target="_blank"
-         rel="noopener">Dokumentation</a>
       <a href="#download">Download</a>
       <a href="#install">Installation</a>
     </div>
@@ -928,11 +1024,11 @@
 ══════════════════════════════════════════════════════════════════════ -->
 <script>
   const DOWNLOADS = {
-    blender:   { url: 'https://www.blender.org/download/',                 direct: false },
-    docker:    { url: 'https://www.docker.com/products/docker-desktop/',   direct: false },
-    container: { url: 'https://PLATZHALTER-DOCKER-CONTAINER-LINK',         direct: false },
-    addon:     { url: 'Add-On/blender_parcel_workflow_addon.py',           direct: true  },
-    examples:  { url: 'https://github.com/haslo2/bimdo-grenzcheck/raw/refs/heads/main/Beispieldateien.zip',            direct: false },
+    blender:   { url: 'https://www.blender.org/download/',                                                    direct: false },
+    docker:    { url: 'https://www.docker.com/products/docker-desktop/',                                      direct: false },
+    container: { url: 'https://PLATZHALTER-DOCKER-CONTAINER-LINK',                                            direct: false },
+    addon:     { url: 'https://raw.githubusercontent.com/haslo2/bimdo-grenzcheck/main/blender_parcel_workflow_addon.py', direct: true  },
+    examples:  { url: 'https://github.com/haslo2/bimdo-grenzcheck/raw/refs/heads/main/Beispieldateien.zip',  direct: false },
   };
 
   function toggleInstalled(key, btn) {
@@ -980,6 +1076,18 @@
     });
   }
 
+  /* Hamburger Menü */
+  function toggleMenu() {
+    const btn    = document.getElementById('hamburger');
+    const drawer = document.getElementById('nav-drawer');
+    btn.classList.toggle('open');
+    drawer.classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('hamburger').classList.remove('open');
+    document.getElementById('nav-drawer').classList.remove('open');
+  }
+
   /* Aktiver Nav-Link beim Scrollen */
   const sections = document.querySelectorAll('section[id]');
   const navLinks  = document.querySelectorAll('.nav-links a');
@@ -997,13 +1105,8 @@
 </script>
 
 <!--
-  PLATZHALTER (vor Veröffentlichung ersetzen):
-  • "https://PLATZHALTER-GITLAB-WIKI-URL"
-  • "https://PLATZHALTER-DOCKER-CONTAINER-LINK"
-  • "https://PLATZHALTER-BEISPIELDATEN-LINK"
-  • "Add-On/blender_parcel_workflow_addon.py"
-      → Datei muss im Add-On/-Unterordner liegen, oder durch absoluten URL ersetzen
-═══════════════════════════════════════════════════════════════════════
+  VERBLEIBENDE PLATZHALTER:
+  • Zeile ~340: "https://PLATZHALTER-DOCKER-CONTAINER-LINK"
 -->
 
 </body>
