@@ -451,41 +451,26 @@
 
     /* ─── Responsive Mobile ────────────────────────────────────────────── */
     @media (max-width: 768px) {
-      /* Nav: Hamburger anzeigen, Links verstecken */
       .nav-links { display: none; }
       .nav-hamburger { display: flex; }
-
-      /* Hero: kleinere Schrift */
       #hero h1 { font-size: clamp(1.6rem, 7vw, 2rem); }
       #hero p  { font-size: .95rem; }
       .hero-buttons { flex-direction: column; align-items: center; }
       .hero-buttons .btn { width: 100%; max-width: 320px; justify-content: center; }
-
-      /* Sections: weniger padding */
       section { padding: 3rem 1.25rem; }
-
-      /* Grids: einspaltig */
       .feature-grid,
       .audience-grid,
       .req-list,
       .workflow-grid,
       .screenshot-grid { grid-template-columns: 1fr; }
-
-      /* Download Box */
       .download-box { padding: 1.25rem 1rem; }
       .already-installed { gap: .5rem; }
       .toggle-btn { width: 100%; text-align: left; }
       .dl-item { flex-wrap: wrap; gap: .75rem; }
       .dl-item-badge { margin-left: auto; }
-
-      /* Steps: vertikal */
       .step { flex-direction: column; gap: .75rem; }
-
-      /* PDF highlight */
       .pdf-highlight { flex-direction: column; gap: 1rem; }
       .pdf-highlight-icon { font-size: 2rem; }
-
-      /* Footer */
       .footer-grid { flex-direction: column; text-align: center; }
       .footer-links { justify-content: center; }
     }
@@ -498,9 +483,6 @@
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     NAV
-══════════════════════════════════════════════════════════════════════ -->
 <nav>
   <div class="nav-logo">Parcel <span>GPKG Workflow</span></div>
   <ul class="nav-links">
@@ -509,13 +491,11 @@
     <li><a href="#download">Download</a></li>
     <li><a href="#install">Installation</a></li>
   </ul>
-  <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()"
-          aria-label="Menü öffnen">
+  <button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menü öffnen">
     <span></span><span></span><span></span>
   </button>
 </nav>
 
-<!-- Mobile Drawer -->
 <nav class="nav-drawer" id="nav-drawer">
   <a href="#features"  onclick="closeMenu()">Funktionen</a>
   <a href="#workflow"  onclick="closeMenu()">Workflow</a>
@@ -523,9 +503,6 @@
   <a href="#install"   onclick="closeMenu()">Installation</a>
 </nav>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     HERO
-══════════════════════════════════════════════════════════════════════ -->
 <section id="hero">
   <div class="container">
     <div class="hero-badge">Blender Add-on v1.0.0 · Open Source · BFH Projekt</div>
@@ -534,18 +511,13 @@
        georeferenziert mit Schweizer Parzellendaten, OEREB-Integration
        und PDF-Bericht auf Knopfdruck.</p>
     <div class="hero-buttons">
-      <a href="#download" class="btn btn-primary">
-        ⬇ Jetzt herunterladen
-      </a>
+      <a href="#download" class="btn btn-primary">⬇ Jetzt herunterladen</a>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     FEATURES
-══════════════════════════════════════════════════════════════════════ -->
 <section id="features">
   <div class="container">
     <p class="section-label">Was das Add-on kann</p>
@@ -556,113 +528,79 @@
       zentralen Oberfläche im Blender N-Panel (Tab <strong style="color:var(--white)">«Parcel»</strong>).
     </p>
     <div class="feature-grid">
-
       <div class="feature-card">
         <div class="feature-icon">🗺️</div>
         <h3>Parzellen-Workflow</h3>
-        <p>Konvertiert GeoPackages (GPKG) zu GeoJSON und importiert
-           Parzellengeometrien korrekt georeferenziert in LV95.
-           Automatische OEREB-Abfrage liefert Zoneninformationen
-           und Gemeindeadresse zur EGRID.</p>
+        <p>Konvertiert GeoPackages (GPKG) zu GeoJSON und importiert Parzellengeometrien korrekt georeferenziert in LV95. Automatische OEREB-Abfrage liefert Zoneninformationen und Gemeindeadresse zur EGRID.</p>
       </div>
-
       <div class="feature-card">
         <div class="feature-icon">📐</div>
         <h3>Grenzabstand-Check</h3>
-        <p>Zweistufige Prüfung: grosser Grenzabstand (Hauptwohnseite)
-           und kleiner Grenzabstand (übrige Seiten). Farbige
-           3D-Visualisierung direkt im Viewport – grün = eingehalten,
-           rot = Unterschreitung.</p>
+        <p>Zweistufige Prüfung: grosser Grenzabstand (Hauptwohnseite) und kleiner Grenzabstand (übrige Seiten). Farbige 3D-Visualisierung direkt im Viewport – grün = eingehalten, rot = Unterschreitung.</p>
       </div>
-
       <div class="feature-card">
         <div class="feature-icon">🌍</div>
         <h3>Swiss Context</h3>
-        <p>Lädt automatisch Gelände, Gebäude und Strassen von
-           swisstopo-Diensten. Schneller Wechsel zwischen
-           Landeskarten- und Satellitenbild-Textur per Toggle.</p>
+        <p>Lädt automatisch Gelände, Gebäude und Strassen von swisstopo-Diensten. Schneller Wechsel zwischen Landeskarten- und Satellitenbild-Textur per Toggle.</p>
       </div>
-
       <div class="feature-card">
         <div class="feature-icon">🏗️</div>
         <h3>IFC Import &amp; Bereinigung</h3>
-        <p>Optimierter IFC-Import via IfcOpenShell. Entfernt auf
-           Wunsch Geländeelemente aus dem IFC-Modell, um Duplikate
-           mit dem Swiss-Context-Terrain zu vermeiden.</p>
+        <p>Optimierter IFC-Import via IfcOpenShell. Entfernt auf Wunsch Geländeelemente aus dem IFC-Modell, um Duplikate mit dem Swiss-Context-Terrain zu vermeiden.</p>
       </div>
-
       <div class="feature-card">
         <div class="feature-icon">🐳</div>
         <h3>Docker-basierte Pipeline</h3>
-        <p>Komplexe Geo-Pipelines (GDAL, Python-Dependencies) laufen
-           isoliert im Docker-Container – unabhängig von der lokalen
-           Blender-Python-Umgebung.</p>
+        <p>Komplexe Geo-Pipelines (GDAL, Python-Dependencies) laufen isoliert im Docker-Container – unabhängig von der lokalen Blender-Python-Umgebung.</p>
       </div>
-
       <div class="feature-card">
         <div class="feature-icon">📍</div>
         <h3>LV95 &amp; EGRID</h3>
-        <p>Vollständige Unterstützung des Schweizer
-           Landeskoordinatensystems LV95. Parzellen werden
-           EGRID-basiert identifiziert und abgefragt.</p>
+        <p>Vollständige Unterstützung des Schweizer Landeskoordinatensystems LV95. Parzellen werden EGRID-basiert identifiziert und abgefragt.</p>
       </div>
-
     </div>
-
-    <!-- PDF highlight -->
     <div class="pdf-highlight">
       <div class="pdf-highlight-icon">📄</div>
       <div>
         <h3>PDF-Bericht auf Knopfdruck</h3>
-        <p>Nach dem Grenzcheck generiert das Add-on automatisch einen
-           vollständigen Prüfbericht als PDF-Datei:</p>
+        <p>Nach dem Grenzcheck generiert das Add-on automatisch einen vollständigen Prüfbericht als PDF-Datei:</p>
         <ul>
           <li>Datum, EGRID, Adresse, Gemeinde, Nutzungszone</li>
           <li>Alle gemessenen Abstände pro Nachbarparzelle (in Metern)</li>
           <li>Hauptwohnseite mit grossem Grenzabstand hervorgehoben</li>
-          <li>Farbiger Viewport-Screenshot der Visualisierung</li>
+          <li>Vier Kamerabilder der Szene aus Nord, Süd, Ost und West</li>
           <li>Klares POSITIV / NEGATIV Prüfresultat</li>
         </ul>
         <p style="margin-top:.5rem; font-size:.82rem;">
-          Gespeichert unter <code style="background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:5px;padding:.1rem .4rem;font-family:monospace;color:var(--cyan)">Protokolle/Grenzcheck-Berichte/</code> im Projektordner
+          Gespeichert unter <code style="background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:5px;padding:.1rem .4rem;font-family:monospace;color:var(--cyan)">Abgabeordner/PDF-Ausdruck/</code> im Projektordner
         </p>
       </div>
     </div>
-
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     AUDIENCE
-══════════════════════════════════════════════════════════════════════ -->
 <section id="audience">
   <div class="container">
     <p class="section-label">Für wen?</p>
     <h2>Das Add-on richtet sich an</h2>
-    <p class="lead">
-      Alle, die frühzeitig und reproduzierbar prüfen möchten, ob ein
-      Gebäudeentwurf die kantonalen Grenzabstandsvorschriften einhält.
-    </p>
+    <p class="lead">Alle, die frühzeitig und reproduzierbar prüfen möchten, ob ein Gebäudeentwurf die kantonalen Grenzabstandsvorschriften einhält.</p>
     <div class="audience-grid">
       <div class="audience-card">
         <div class="audience-icon">🏛️</div>
         <h3>Architekten</h3>
-        <p>Vorprüfung vor Einreichung des Baugesuchs – Fehler frühzeitig
-           erkennen und Überarbeitungsrunden reduzieren.</p>
+        <p>Vorprüfung vor Einreichung des Baugesuchs – Fehler frühzeitig erkennen und Überarbeitungsrunden reduzieren.</p>
       </div>
       <div class="audience-card">
         <div class="audience-icon">📏</div>
         <h3>Planer &amp; Ingenieure</h3>
-        <p>Schnelle Kontrolle während der Planungsphase ohne manuelle
-           Abstandsmessungen im CAD oder GIS.</p>
+        <p>Schnelle Kontrolle während der Planungsphase ohne manuelle Abstandsmessungen im CAD oder GIS.</p>
       </div>
       <div class="audience-card">
         <div class="audience-icon">🏢</div>
         <h3>Behörden</h3>
-        <p>Reproduzierbare, automatisierte Erstprüfung von Baugesuchen
-           mit dokumentiertem PDF-Bericht als Prüfprotokoll.</p>
+        <p>Reproduzierbare, automatisierte Erstprüfung von Baugesuchen mit dokumentiertem PDF-Bericht als Prüfprotokoll.</p>
       </div>
     </div>
   </div>
@@ -670,9 +608,6 @@
 
 <div class="divider"></div>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     REQUIREMENTS
-══════════════════════════════════════════════════════════════════════ -->
 <section id="requirements">
   <div class="container">
     <p class="section-label">Voraussetzungen</p>
@@ -681,260 +616,141 @@
     <div class="req-list">
       <div class="req-item">
         <div class="req-dot"></div>
-        <div>
-          <strong>Blender 3.6.0 oder neuer</strong>
-          <span>3D-Software als Basis (auch 4.x / 5.x)</span>
-        </div>
+        <div><strong>Blender 3.6.0 oder neuer</strong><span>3D-Software als Basis (auch 4.x / 5.x)</span></div>
       </div>
       <div class="req-item">
         <div class="req-dot"></div>
-        <div>
-          <strong>Docker Desktop</strong>
-          <span>Nur nötig für automatische Parzellen-Datenabfrage</span>
-        </div>
+        <div><strong>Docker Desktop</strong><span>Nur nötig für automatische Parzellen-Datenabfrage</span></div>
       </div>
       <div class="req-item">
         <div class="req-dot"></div>
-        <div>
-          <strong>IFC-Modell in LV95</strong>
-          <span>Georeferenziertes Gebäudemodell als .ifc Datei</span>
-        </div>
+        <div><strong>IFC-Modell in LV95</strong><span>Georeferenziertes Gebäudemodell als .ifc Datei</span></div>
       </div>
       <div class="req-item">
         <div class="req-dot"></div>
-        <div>
-          <strong>Parzellendaten</strong>
-          <span>Als GeoPackage (.gpkg) oder GeoJSON</span>
-        </div>
+        <div><strong>Parzellendaten</strong><span>Als GeoPackage (.gpkg) oder GeoJSON</span></div>
       </div>
       <div class="req-item">
         <div class="req-dot"></div>
-        <div>
-          <strong>EGRID-Nummer</strong>
-          <span>Parzellen-Identifikator (Format: CH + 12 Ziffern)</span>
-        </div>
+        <div><strong>EGRID-Nummer</strong><span>Parzellen-Identifikator (Format: CH + 12 Ziffern)</span></div>
       </div>
     </div>
     <div class="req-note">
-      <strong>💡 Docker ist optional!</strong> Docker wird nur für die automatische
-      Parzellen-Datenabfrage benötigt. Wer die Parzellendaten bereits als GeoJSON
-      oder GPKG-Datei hat, braucht Docker nicht.
+      <strong>💡 Docker ist optional!</strong> Docker wird nur für die automatische Parzellen-Datenabfrage benötigt. Wer die Parzellendaten bereits als GeoJSON oder GPKG-Datei hat, braucht Docker nicht.
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     DOWNLOAD
-══════════════════════════════════════════════════════════════════════ -->
 <section id="download">
   <div class="container">
     <p class="section-label">Download</p>
     <h2>Alles auf einmal herunterladen</h2>
-    <p class="lead">
-      Wähle ab, was du bereits installiert hast – dann lädt der Button
-      nur das herunter, was du noch brauchst.
-    </p>
+    <p class="lead">Wähle ab, was du bereits installiert hast – dann lädt der Button nur das herunter, was du noch brauchst.</p>
 
     <div class="docker-infobox">
-      💡 <strong>Parzellendaten bereits vorhanden?</strong> Docker überspringen –
-      direkt mit Schritt 3 beginnen.
+      💡 <strong>Parzellendaten bereits vorhanden?</strong> Docker überspringen – direkt mit Schritt 3 beginnen.
     </div>
 
     <div class="download-box">
-
       <p class="docker-note">
         Docker wird nur für die automatische Parzellen-Datenabfrage benötigt.
-        Wer die Parzellendaten bereits als GeoJSON oder GPKG-Datei hat,
-        braucht Docker nicht.
+        Wer die Parzellendaten bereits als GeoJSON oder GPKG-Datei hat, braucht Docker nicht.
       </p>
-
-      <div style="margin-bottom:.5rem; color:var(--text-dim); font-size:.82rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase;">
-        Bereits installiert?
-      </div>
+      <div style="margin-bottom:.5rem; color:var(--text-dim); font-size:.82rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase;">Bereits installiert?</div>
       <div class="already-installed">
-        <button class="toggle-btn" id="toggle-blender"
-                onclick="toggleInstalled('blender', this)">
-          ✓ Blender bereits installiert
-        </button>
-        <button class="toggle-btn" id="toggle-docker"
-                onclick="toggleInstalled('docker', this)">
-          ✓ Docker bereits installiert
-        </button>
+        <button class="toggle-btn" id="toggle-blender" onclick="toggleInstalled('blender', this)">✓ Blender bereits installiert</button>
+        <button class="toggle-btn" id="toggle-docker" onclick="toggleInstalled('docker', this)">✓ Docker bereits installiert</button>
       </div>
-
       <div class="download-items">
-
         <label class="dl-item" id="item-blender">
           <input type="checkbox" id="cb-blender" checked onchange="updateCount()" />
           <div class="dl-item-info">
             <div class="dl-item-name">Blender 3.6 / 4.x / 5.x</div>
-            <div class="dl-item-desc">
-              <a href="https://www.blender.org/download/" target="_blank"
-                 rel="noopener" onclick="event.stopPropagation()">
-                blender.org/download ↗
-              </a>
-            </div>
+            <div class="dl-item-desc"><a href="https://www.blender.org/download/" target="_blank" rel="noopener" onclick="event.stopPropagation()">blender.org/download ↗</a></div>
           </div>
           <span class="dl-item-badge badge-required">Pflicht</span>
         </label>
-
         <label class="dl-item" id="item-docker">
           <input type="checkbox" id="cb-docker" checked onchange="updateCount()" />
           <div class="dl-item-info">
             <div class="dl-item-name">Docker Desktop</div>
-            <div class="dl-item-desc">
-              Nur nötig wenn du Parzellendaten automatisch abfragen willst ·
-              <a href="https://www.docker.com/products/docker-desktop/"
-                 target="_blank" rel="noopener" onclick="event.stopPropagation()">
-                docker.com ↗
-              </a>
-            </div>
+            <div class="dl-item-desc">Nur nötig wenn du Parzellendaten automatisch abfragen willst · <a href="https://www.docker.com/products/docker-desktop/" target="_blank" rel="noopener" onclick="event.stopPropagation()">docker.com ↗</a></div>
           </div>
           <span class="dl-item-badge badge-optional">Optional</span>
         </label>
-
         <label class="dl-item" id="item-container">
           <input type="checkbox" id="cb-container" checked onchange="updateCount()" />
           <div class="dl-item-info">
             <div class="dl-item-name">Docker Container «Parcel»</div>
-            <div class="dl-item-desc">
-              Nur nötig wenn du Parzellendaten automatisch abfragen willst ·
-              <span style="color:var(--text-dim)">Platzhalter-Link</span>
-            </div>
+            <div class="dl-item-desc">Nur nötig wenn du Parzellendaten automatisch abfragen willst · <span style="color:var(--text-dim)">Platzhalter-Link</span></div>
           </div>
           <span class="dl-item-badge badge-optional">Optional</span>
         </label>
-
         <label class="dl-item" id="item-addon">
           <input type="checkbox" id="cb-addon" checked onchange="updateCount()" />
           <div class="dl-item-info">
-            <div class="dl-item-name">
-              Grenzabstand Add-on
-              <code style="font-size:.78rem; vertical-align:middle; margin-left:.4rem;">blender_parcel_workflow_addon.py</code>
-            </div>
+            <div class="dl-item-name">Grenzabstand Add-on <code style="font-size:.78rem; vertical-align:middle; margin-left:.4rem;">blender_parcel_workflow_addon.py</code></div>
             <div class="dl-item-desc">Das Blender-Add-on – direkter Download</div>
           </div>
           <span class="dl-item-badge badge-addon">Add-on</span>
         </label>
-
         <label class="dl-item" id="item-examples">
           <input type="checkbox" id="cb-examples" checked onchange="updateCount()" />
           <div class="dl-item-info">
             <div class="dl-item-name">Beispieldaten</div>
-            <div class="dl-item-desc">
-              Parzellen-GPKG + georeferenziertes IFC-Beispielgebäude ·
-              <span style="color:var(--text-dim)">Platzhalter-Link</span>
-            </div>
+            <div class="dl-item-desc">Parzellen-GPKG + georeferenziertes IFC-Beispielgebäude · <span style="color:var(--text-dim)">Platzhalter-Link</span></div>
           </div>
           <span class="dl-item-badge badge-optional">Optional</span>
         </label>
-
       </div>
-
-      <div class="download-note">
-        ℹ Einige Downloads öffnen externe Websites. Stelle sicher, dass dein
-        Browser Pop-ups von dieser Seite erlaubt.
-      </div>
-
-      <button class="btn btn-green" id="dl-button" onclick="downloadAll()">
-        ⬇ Ausgewähltes herunterladen (<span id="dl-count">5</span>)
-      </button>
-
+      <div class="download-note">ℹ Einige Downloads öffnen externe Websites. Stelle sicher, dass dein Browser Pop-ups von dieser Seite erlaubt.</div>
+      <button class="btn btn-green" id="dl-button" onclick="downloadAll()">⬇ Ausgewähltes herunterladen (<span id="dl-count">5</span>)</button>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     WORKFLOW
-══════════════════════════════════════════════════════════════════════ -->
 <section id="workflow">
   <div class="container">
     <p class="section-label">Typischer Ablauf</p>
     <h2>Von der Parzelle zum PDF-Bericht</h2>
-    <p class="lead">
-      Der empfohlene Arbeitsablauf im Tab <strong style="color:var(--white)">«Parcel»</strong> des N-Panels.
-    </p>
+    <p class="lead">Der empfohlene Arbeitsablauf im Tab <strong style="color:var(--white)">«Parcel»</strong> des N-Panels.</p>
     <div class="workflow-grid">
-      <div class="wf-card">
-        <div class="wf-icon">📁</div>
-        <h3>Projektordner wählen</h3>
-        <p>Arbeitsverzeichnis festlegen – dort werden auch die PDF-Berichte abgelegt.</p>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">🔑</div>
-        <h3>EGRID eingeben</h3>
-        <p>Parzellen-ID eingeben (CH + 12 Ziffern) oder GPKG-Quelldatei wählen.</p>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">🐳</div>
-        <h3>Docker-Aktion starten</h3>
-        <p>GPKG → GeoJSON Konvertierung via Docker ausführen (nur nötig ohne eigene Parzellendaten).</p>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">🗺️</div>
-        <h3>Parzelle importieren</h3>
-        <p>Parzellengeometrien werden georeferenziert in LV95 geladen. OEREB-Daten folgen automatisch.</p>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">🌍</div>
-        <h3>Swiss Context laden</h3>
-        <p>Gelände, Gebäude und Strassen von swisstopo für den Kontext hinzufügen.</p>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">🏗️</div>
-        <h3>IFC importieren</h3>
-        <p>Gebäudemodell laden, optional vorhandene Geländeelemente entfernen.</p>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">📐</div>
-        <h3>Grenzcheck ausführen</h3>
-        <p>Grenzabstände werden berechnet und farbig im Viewport visualisiert.</p>
-      </div>
-      <div class="wf-card">
-        <div class="wf-icon">📄</div>
-        <h3>PDF-Bericht exportieren</h3>
-        <p>Vollständiges Prüfprotokoll inkl. Viewport-Screenshot als PDF speichern.</p>
-      </div>
+      <div class="wf-card"><div class="wf-icon">📁</div><h3>Projektordner wählen</h3><p>Arbeitsverzeichnis festlegen – dort werden auch die PDF-Berichte abgelegt.</p></div>
+      <div class="wf-card"><div class="wf-icon">🔑</div><h3>EGRID eingeben</h3><p>Parzellen-ID eingeben (CH + 12 Ziffern) oder GPKG-Quelldatei wählen.</p></div>
+      <div class="wf-card"><div class="wf-icon">🐳</div><h3>Docker-Aktion starten</h3><p>GPKG → GeoJSON Konvertierung via Docker ausführen (nur nötig ohne eigene Parzellendaten).</p></div>
+      <div class="wf-card"><div class="wf-icon">🗺️</div><h3>Parzelle importieren</h3><p>Parzellengeometrien werden georeferenziert in LV95 geladen. OEREB-Daten folgen automatisch.</p></div>
+      <div class="wf-card"><div class="wf-icon">🌍</div><h3>Swiss Context laden</h3><p>Gelände, Gebäude und Strassen von swisstopo für den Kontext hinzufügen.</p></div>
+      <div class="wf-card"><div class="wf-icon">🏗️</div><h3>IFC importieren</h3><p>Gebäudemodell laden, optional vorhandene Geländeelemente entfernen.</p></div>
+      <div class="wf-card"><div class="wf-icon">📐</div><h3>Grenzcheck ausführen</h3><p>Grenzabstände werden berechnet und farbig im Viewport visualisiert.</p></div>
+      <div class="wf-card"><div class="wf-icon">📄</div><h3>PDF-Bericht exportieren</h3><p>Vollständiges Prüfprotokoll inkl. vier Kamerabildern (N/S/O/W) als PDF speichern.</p></div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     INSTALLATION
-══════════════════════════════════════════════════════════════════════ -->
 <section id="install">
   <div class="container">
     <p class="section-label">Installationsanleitung</p>
     <h2>In 5 Schritten startklar</h2>
     <p class="lead">Folge diesen Schritten – das Add-on ist in wenigen Minuten einsatzbereit.</p>
-
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-body">
           <h3>Blender installieren</h3>
-          <p>Lade Blender 3.6.0 oder neuer (inkl. 4.x / 5.x) von
-             <a href="https://www.blender.org/download/" target="_blank"
-                rel="noopener">blender.org/download</a> herunter und installiere es.</p>
+          <p>Lade Blender 3.6.0 oder neuer (inkl. 4.x / 5.x) von <a href="https://www.blender.org/download/" target="_blank" rel="noopener">blender.org/download</a> herunter und installiere es.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-body">
           <h3>Docker installieren und starten (optional)</h3>
-          <p>Nur nötig wenn du Parzellendaten automatisch abfragen willst.
-             Installiere
-             <a href="https://www.docker.com/products/docker-desktop/" target="_blank"
-                rel="noopener">Docker Desktop</a>
-             (Windows / Mac) und starte es.
-             Wer Parzellendaten bereits als GeoJSON oder GPKG hat, kann diesen
-             Schritt überspringen.</p>
+          <p>Nur nötig wenn du Parzellendaten automatisch abfragen willst. Installiere <a href="https://www.docker.com/products/docker-desktop/" target="_blank" rel="noopener">Docker Desktop</a> (Windows / Mac) und starte es. Wer Parzellendaten bereits als GeoJSON oder GPKG hat, kann diesen Schritt überspringen.</p>
         </div>
       </div>
       <div class="step">
@@ -943,28 +759,21 @@
           <h3>Add-on in Blender installieren</h3>
           <p>Öffne Blender und navigiere zu:</p>
           <code>Edit → Preferences → Add-ons → Install</code>
-          <p style="margin-top:.5rem;">
-            Wähle die heruntergeladene Datei <code>blender_parcel_workflow_addon.py</code> aus
-            und aktiviere das Add-on mit dem Häkchen.</p>
+          <p style="margin-top:.5rem;">Wähle die heruntergeladene Datei <code>blender_parcel_workflow_addon.py</code> aus und aktiviere das Add-on mit dem Häkchen.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">4</div>
         <div class="step-body">
           <h3>Parzellendaten bereitstellen</h3>
-          <p>Lege deine Parzellendaten als GeoJSON oder GPKG-Datei bereit.
-             Ohne eigene Daten: Docker-Container «Parcel» starten und die
-             Konvertierung im Add-on-Panel auslösen.</p>
+          <p>Lege deine Parzellendaten als GeoJSON oder GPKG-Datei bereit. Ohne eigene Daten: Docker-Container «Parcel» starten und die Konvertierung im Add-on-Panel auslösen.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-num">5</div>
         <div class="step-body">
           <h3>Add-on verwenden</h3>
-          <p>Im 3D-Viewport das N-Panel öffnen
-             (<code>N</code> drücken) und den Tab
-             <code>Parcel</code> anwählen.
-             Projektordner und EGRID eingeben – dann loslegen.</p>
+          <p>Im 3D-Viewport das N-Panel öffnen (<code>N</code> drücken) und den Tab <code>Parcel</code> anwählen. Projektordner und EGRID eingeben – dann loslegen.</p>
         </div>
       </div>
     </div>
@@ -973,9 +782,6 @@
 
 <div class="divider"></div>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     SCREENSHOTS
-══════════════════════════════════════════════════════════════════════ -->
 <section id="screenshots">
   <div class="container">
     <p class="section-label">Screenshots</p>
@@ -995,7 +801,7 @@
       <div class="screenshot-placeholder">
         <div class="ph-icon">🖼️</div>
         <div class="ph-title">Beispiel PDF-Bericht</div>
-        <div class="ph-sub">Abstände in Metern, POSITIV / NEGATIV Prüfresultat, Viewport-Screenshot</div>
+        <div class="ph-sub">Abstände in Metern, POSITIV / NEGATIV Prüfresultat, vier Kamerabilder (N/S/O/W)</div>
       </div>
     </div>
   </div>
@@ -1003,9 +809,6 @@
 
 <div class="divider"></div>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     FOOTER
-══════════════════════════════════════════════════════════════════════ -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">Parcel <span>GPKG Workflow</span></div>
@@ -1013,27 +816,22 @@
       <a href="#download">Download</a>
       <a href="#install">Installation</a>
     </div>
-    <div style="color:var(--text-dim); font-size:.8rem;">
-      BFH Informatikprojekt · Open Source
-    </div>
+    <div style="color:var(--text-dim); font-size:.8rem;">BFH Informatikprojekt · Open Source</div>
   </div>
 </footer>
 
-<!-- ══════════════════════════════════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════════════════════════════════ -->
 <script>
   const DOWNLOADS = {
-    blender:   { url: 'https://www.blender.org/download/',                                                    direct: false },
-    docker:    { url: 'https://www.docker.com/products/docker-desktop/',                                      direct: false },
-    container: { url: 'https://PLATZHALTER-DOCKER-CONTAINER-LINK',                                            direct: false },
-    addon:     { url: 'https://raw.githubusercontent.com/haslo2/bimdo-grenzcheck/main/blender_parcel_workflow_addon.py', direct: true  },
-    examples:  { url: 'https://github.com/haslo2/bimdo-grenzcheck/raw/refs/heads/main/Beispieldateien.zip',  direct: false },
+    blender:   { url: 'https://www.blender.org/download/', direct: false },
+    docker:    { url: 'https://www.docker.com/products/docker-desktop/', direct: false },
+    container: { url: 'https://PLATZHALTER-DOCKER-CONTAINER-LINK', direct: false },
+    addon:     { url: 'https://raw.githubusercontent.com/haslo2/bimdo-grenzcheck/main/blender_parcel_workflow_addon.py', direct: true },
+    examples:  { url: 'https://github.com/haslo2/bimdo-grenzcheck/raw/refs/heads/main/Beispieldateien.zip', direct: false },
   };
 
   function toggleInstalled(key, btn) {
     const item = document.getElementById('item-' + key);
-    const cb   = document.getElementById('cb-'   + key);
+    const cb   = document.getElementById('cb-' + key);
     const isNowActive = btn.classList.toggle('active');
     if (isNowActive) {
       item.classList.add('disabled');
@@ -1058,10 +856,7 @@
       const cb = document.getElementById('cb-' + k);
       return cb && cb.checked && !cb.disabled;
     });
-    if (selected.length === 0) {
-      alert('Bitte wähle mindestens einen Download aus.');
-      return;
-    }
+    if (selected.length === 0) { alert('Bitte wähle mindestens einen Download aus.'); return; }
     selected.forEach((key, i) => {
       const { url, direct } = DOWNLOADS[key];
       setTimeout(() => {
@@ -1076,38 +871,28 @@
     });
   }
 
-  /* Hamburger Menü */
   function toggleMenu() {
-    const btn    = document.getElementById('hamburger');
-    const drawer = document.getElementById('nav-drawer');
-    btn.classList.toggle('open');
-    drawer.classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('open');
+    document.getElementById('nav-drawer').classList.toggle('open');
   }
   function closeMenu() {
     document.getElementById('hamburger').classList.remove('open');
     document.getElementById('nav-drawer').classList.remove('open');
   }
 
-  /* Aktiver Nav-Link beim Scrollen */
   const sections = document.querySelectorAll('section[id]');
-  const navLinks  = document.querySelectorAll('.nav-links a');
+  const navLinks = document.querySelectorAll('.nav-links a');
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         navLinks.forEach(a => {
-          a.style.color = a.getAttribute('href') === '#' + e.target.id
-            ? 'var(--cyan)' : '';
+          a.style.color = a.getAttribute('href') === '#' + e.target.id ? 'var(--cyan)' : '';
         });
       }
     });
   }, { threshold: 0.35 });
   sections.forEach(s => io.observe(s));
 </script>
-
-<!--
-  VERBLEIBENDE PLATZHALTER:
-  • Zeile ~340: "https://PLATZHALTER-DOCKER-CONTAINER-LINK"
--->
 
 </body>
 </html>
