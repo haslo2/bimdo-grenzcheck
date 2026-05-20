@@ -574,42 +574,6 @@
 </head>
 <body>
 
-<!-- ============================= PDF INTRO OVERLAY ============================= -->
-<div class="pdf-overlay" id="pdfIntro" aria-hidden="true">
-  <div class="pdf-doc" role="img" aria-label="Grenzabstandcheck Bericht Vorschau">
-    <div class="pdf-head">
-      <h4>Grenzabstandcheck — Bericht</h4>
-      <div class="pdf-meta">REV 03 · 20.05.2026</div>
-    </div>
-    <div class="pdf-body">
-      <div class="pdf-row"><span>Projekt: Neubau MFH Burgdorf</span><span>Parzelle CH-BE 1124-0085</span></div>
-      <div class="pdf-title">Prüfprotokoll Grenzabstand nach BauG Art. 79</div>
-      <div class="pdf-sub">Koordinatensystem LV95 · Quelle: swisstopo / OEREB · Geprüft via Boundary Check 0.4.2</div>
-
-      <table class="pdf-table">
-        <thead><tr><th>EGRID</th><th>Nachbar</th><th>Soll</th><th>Ist</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr class="ok"><td>CH88…041F</td><td>N-Grenze</td><td>4.00 m</td><td>4.62 m</td><td>OK</td></tr>
-          <tr class="ok"><td>CH88…041F</td><td>O-Grenze</td><td>4.00 m</td><td>5.18 m</td><td>OK</td></tr>
-          <tr class="warn"><td>CH88…0420</td><td>S-Grenze</td><td>6.00 m</td><td>6.05 m</td><td>Knapp</td></tr>
-          <tr class="bad"><td>CH88…0421</td><td>W-Grenze</td><td>4.00 m</td><td>3.41 m</td><td>Unterschritten</td></tr>
-        </tbody>
-      </table>
-
-      <div class="pdf-viewports">
-        <div class="pdf-vp"><span>NORD</span></div>
-        <div class="pdf-vp"><span>OST</span></div>
-        <div class="pdf-vp"><span>SÜD</span></div>
-        <div class="pdf-vp"><span>WEST</span></div>
-      </div>
-    </div>
-    <div class="pdf-foot">
-      <span>boundary-check.ch</span>
-      <span>Seite 1 / 3</span>
-    </div>
-  </div>
-</div>
-
 <!-- ============================= NAV ============================= -->
 <nav class="nav" id="nav">
   <div class="container nav-inner">
@@ -652,7 +616,7 @@
       </h1>
       <p class="lead">
         Blender-Add-on für Schweizer Bauplaner: Parzellen via EGRID importieren,
-        Grenzabstände prüfen, rechtssicheres PDF exportieren — in einem Workflow.
+        Grenzabstände prüfen, PDF-Bericht exportieren — in einem Workflow.
       </p>
     </div>
 
@@ -734,20 +698,7 @@
     </div>
   </div>
 
-  <div class="container trust" style="margin-top:64px">
-    <span>Erprobt mit</span>
-    <span style="color:var(--ink-2)">swisstopo</span>
-    <span class="sep"></span>
-    <span style="color:var(--ink-2)">OEREB</span>
-    <span class="sep"></span>
-    <span style="color:var(--ink-2)">GDAL</span>
-    <span class="sep"></span>
-    <span style="color:var(--ink-2)">IfcOpenShell</span>
-    <span class="sep"></span>
-    <span style="color:var(--ink-2)">Docker</span>
-    <span class="sep"></span>
-    <span style="color:var(--ink-2)">BFH</span>
-  </div>
+
 </section>
 
 <!-- ============================= FEATURES ============================= -->
@@ -758,7 +709,7 @@
       <h2>Alles was Sie für eine saubere Grenzabstandsprüfung brauchen.</h2>
       <p class="lead" style="margin-top:18px">
         Sechs zentrale Bausteine — von der Parzellenabfrage bis zum
-        unterschriftsreifen PDF-Bericht. Direkt in Blender, ohne Wechsel des Tools.
+        anschaulichen PDF-Bericht. Direkt in Blender, ohne Wechsel des Tools.
       </p>
     </div>
 
@@ -819,7 +770,7 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
         </div>
         <h3>PDF-Bericht</h3>
-        <p>Vier Ansichten, farbcodierte Tabelle, EGRID-Referenzen und Behördensiegel — ein Klick zum unterschriftsreifen Dokument.</p>
+        <p>Vier Ansichten, farbcodierte Tabelle, EGRID-Referenzen und Behördensiegel — ein Klick zum anschaulichen Prüfdokument.</p>
         <div class="tag">Output · A4 / A3</div>
       </div>
     </div>
@@ -1051,35 +1002,34 @@
       <div class="eyebrow">05 — Team</div>
       <h2>Studierende der BFH, eine Idee aus der Praxis.</h2>
       <p class="lead" style="margin-top:18px">
-        Boundary Check entstand als interdisziplinäres Informatikprojekt
-        zwischen Holztechnik und Informatik an der Berner Fachhochschule.
+        Boundary Check entstand als interdisziplinäres Informatikprojekt zwischen der Berner Fachhochschule und dem Wirtschaftspartner bimdo. Die Studierenden BSc in Holztechnik erarbeiteten diese Lösung im Rahmen des Moduls Informatik 3.
       </p>
     </div>
 
     <div class="team-grid">
       <div class="team-card reveal">
-        <div class="avatar">OK</div>
-        <h3>Oliver Kaufmann</h3>
-        <div class="role">Projektleitung &amp; Blender-Integration</div>
-        <span class="ctx">BFH · Holztechnik</span>
+        <div class="avatar">KS</div>
+        <h3>Kay Schürmann</h3>
+        <div class="role">Holzwirtschaftsingenieur</div>
+        <span class="ctx">BSc Holztechnik · BFH</span>
       </div>
       <div class="team-card reveal">
-        <div class="avatar a2">JB</div>
-        <h3>Jonas Baumann</h3>
-        <div class="role">Swiss Context &amp; Geodaten</div>
-        <span class="ctx">BFH · Holztechnik</span>
+        <div class="avatar a2">OH</div>
+        <h3>Oliver Hasler</h3>
+        <div class="role">Holzwirtschaftsingenieur</div>
+        <span class="ctx">BSc Holztechnik · BFH</span>
       </div>
       <div class="team-card reveal">
-        <div class="avatar a3">KB</div>
-        <h3>Kay Brunner</h3>
-        <div class="role">IFC &amp; BIM-Schnittstellen</div>
-        <span class="ctx">BFH · Holztechnik</span>
+        <div class="avatar a3">JH</div>
+        <h3>Jonas Halter</h3>
+        <div class="role">Holzbauingenieur</div>
+        <span class="ctx">BSc Holztechnik · BFH</span>
       </div>
       <div class="team-card reveal">
-        <div class="avatar a4">MN</div>
-        <h3>Manuel Nyffeler</h3>
-        <div class="role">Geodaten &amp; OEREB-API</div>
-        <span class="ctx">BFH · Holztechnik</span>
+        <div class="avatar a4">FE</div>
+        <h3>Felix Egger</h3>
+        <div class="role">Holzbauingenieur</div>
+        <span class="ctx">BSc Holztechnik · BFH</span>
       </div>
     </div>
   </div>
@@ -1137,21 +1087,6 @@
 </footer>
 
 <script>
-  /* ============================= PDF Intro animation ============================= */
-  (function pdfIntro(){
-    const ov = document.getElementById('pdfIntro');
-    requestAnimationFrame(()=>{
-      ov.classList.add('show');
-      ov.setAttribute('aria-hidden','false');
-    });
-    setTimeout(()=>{
-      ov.classList.remove('show');
-      ov.classList.add('hide');
-      ov.setAttribute('aria-hidden','true');
-      setTimeout(()=>{ ov.style.display='none'; }, 700);
-    }, 2500);
-  })();
-
   /* ============================= Nav scrolled state ============================= */
   const nav = document.getElementById('nav');
   const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
