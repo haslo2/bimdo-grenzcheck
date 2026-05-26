@@ -656,7 +656,7 @@
         </div>
       </div>
       <div class="pdf-frame has-pdf" id="pdfFrame">
-        <iframe src="https://github.com/haslo2/bimdo-grenzcheck/blob/main/grenzcheck_CH835378937802_20260520_225356.pdf" title="Grenzabstand-Bericht Vorschau"></iframe>
+        <iframe src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/haslo2/bimdo-grenzcheck/main/grenzcheck_CH835378937802_20260520_225356.pdf&embedded=true" title="Grenzabstand-Bericht Vorschau"></iframe>
       </div>
     </div>
 
@@ -879,11 +879,6 @@
         <h3>Boundary Check 0.4.2</h3>
         <p>Wählen Sie Ihre Plattform und laden Sie genau das, was noch fehlt.</p>
 
-        <div class="platform-tabs">
-          <button class="active" data-os="mac">macOS</button>
-          <button data-os="win">Windows</button>
-          <button data-os="linux">Linux</button>
-        </div>
 
         <button class="smart-btn" id="smartBtn">
           <span id="smartLabel">Vollständiges Bundle laden</span>
@@ -1026,15 +1021,6 @@
       updateSmart();
     });
   });
-  document.querySelectorAll('.platform-tabs button').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      document.querySelectorAll('.platform-tabs button').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-      state.os = b.dataset.os;
-      updateSmart();
-    });
-  });
-
   function updateSmart(){
     const needed = Object.keys(components).filter(k => !state[k]);
     const haveCount = 3 - needed.length;
