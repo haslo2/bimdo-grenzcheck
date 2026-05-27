@@ -641,11 +641,6 @@
           Workflow ansehen
         </a>
       </div>
-      <div class="hero-meta">
-        <span><span class="dot"></span>Version 0.4.2 · stable</span>
-        <span>Blender 3.6 LTS+</span>
-
-      </div>
     </div>
 
     <div class="pdf-preview-wrap reveal">
@@ -656,7 +651,7 @@
         </div>
       </div>
       <div class="pdf-frame has-pdf" id="pdfFrame">
-        <iframe src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/haslo2/bimdo-grenzcheck/main/grenzcheck_CH835378937802_20260520_225356.pdf&embedded=true" title="Grenzabstand-Bericht Vorschau"></iframe>
+        <iframe src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/haslo2/bimdo-grenzcheck/main/grenzcheck_CH835378937802_20260527_194152.pdf&embedded=true" title="Grenzabstand-Bericht Vorschau"></iframe>
       </div>
     </div>
 
@@ -682,18 +677,18 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v10l9 4 9-4V7"/><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M12 11v10"/></svg>
         </div>
         <h3>Parzellen-Workflow</h3>
-        <p>EGRID eingeben, Parzelle abfragen, GPKG laden. Boundary Check übernimmt die Geometrie verlustfrei und richtig georeferenziert.</p>
-        <div class="tag">Input · EGRID / GPKG</div>
+        <p>Parzelle per Karte wählen oder EGRID eingeben, Geodaten abfragen, GPKG laden. Boundary Check übernimmt die Geometrie verlustfrei und georeferenziert.</p>
+        <div class="tag">Input · Karte / EGRID / GPKG</div>
       </div>
 
       <div class="feature reveal">
         <div class="num">F.02</div>
         <div class="icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l9-15 9 15H3z"/><path d="M12 9v5"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10v4M11 10v4M15 10v4M19 10v4"/></svg>
         </div>
-        <h3>Grenzabstand-Check</h3>
-        <p>Misst jeden Punkt des Gebäudes gegen jede Parzellengrenze. Konflikte werden grün, gelb oder rot kategorisiert.</p>
-        <div class="tag">Core · Engine</div>
+        <h3>Docker-Pipeline</h3>
+        <p>GDAL, Conversion-Skripte und Geodatenverarbeitung in einem reproduzierbaren Container — kein lokales Setup nötig.</p>
+        <div class="tag">DevOps · Container</div>
       </div>
 
       <div class="feature reveal">
@@ -719,11 +714,11 @@
       <div class="feature reveal">
         <div class="num">F.05</div>
         <div class="icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10v4M11 10v4M15 10v4M19 10v4"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18l9-15 9 15H3z"/><path d="M12 9v5"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
         </div>
-        <h3>Docker-Pipeline</h3>
-        <p>GDAL, Conversion-Skripte und Geodatenverarbeitung in einem reproduzierbaren Container — kein lokales Setup nötig.</p>
-        <div class="tag">DevOps · Container</div>
+        <h3>Grenzabstand-Check</h3>
+        <p>Misst jeden Punkt des Gebäudes gegen jede Parzellengrenze. Konflikte werden grün, gelb oder rot kategorisiert.</p>
+        <div class="tag">Core · Engine</div>
       </div>
 
       <div class="feature reveal">
@@ -759,7 +754,7 @@
   <div class="container">
     <div class="reveal">
       <div class="eyebrow">02 — Workflow</div>
-      <h2>Vom EGRID bis zum PDF — in acht Schritten.</h2>
+      <h2>Von der Parzelle bis zum PDF — in acht Schritten.</h2>
       <p class="lead" style="margin-top:18px">
         Ein linearer, nachvollziehbarer Ablauf. Jeder Schritt ist innerhalb von
         Blender erreichbar, ohne externe Programme zu wechseln.
@@ -770,8 +765,8 @@
       <div class="step reveal">
         <div class="step-no">01</div>
         <div>
-          <h3>EGRID eingeben</h3>
-          <p>Eidg. Grundstücksidentifikator als Eingabe — z.&nbsp;B. <code>CH881234567012</code>. Boundary Check übernimmt den Rest.</p>
+          <h3>Parzelle wählen</h3>
+          <p>EGRID manuell eingeben — oder per Klick auf die interaktive Swisstopo-Karte. EGRID & Kanton werden automatisch übernommen.</p>
         </div>
       </div>
       <div class="step reveal">
@@ -832,65 +827,64 @@
   <div class="container">
     <div class="reveal">
       <div class="eyebrow">03 — Download</div>
-      <h2>Vor dem ersten Lauf: vier Dinge prüfen.</h2>
+      <h2>Drei Dinge, dann kann es losgehen.</h2>
       <p class="lead" style="margin-top:18px">
-        Abhaken was bereits installiert ist — die intelligente Download-Schaltfläche wird sich automatisch anpassen.
+        Blender und Docker von den jeweiligen Websites installieren, dann das Boundary-Check-Bundle herunterladen.
       </p>
     </div>
 
-    <div class="download-grid">
-      <div class="check-list reveal" id="checkList">
-        <div class="check-item" data-key="blender">
-          <div class="check">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div style="flex:1">
-            <h3>Blender 3.6 LTS oder neuer</h3>
-            <p>Das Add-on läuft als Python-Plugin innerhalb von Blender. Empfohlen wird die LTS-Version.</p>
-            <div class="meta"><b>blender.org</b> · 280 MB · Pflicht</div>
-          </div>
-        </div>
+    <div class="grid-features" style="margin-top:48px">
 
-        <div class="check-item" data-key="docker">
-          <div class="check">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div style="flex:1">
-            <h3>Docker Desktop <span class="opt">Optional</span></h3>
-            <p>Für die reproduzierbare Geodaten-Pipeline. Ohne Docker fällt das Add-on auf eine lokale GDAL-Installation zurück.</p>
-            <div class="meta"><b>docker.com</b> · 600 MB · Empfohlen</div>
-          </div>
+      <!-- Blender -->
+      <div class="feature reveal" style="display:flex;flex-direction:column">
+        <div class="num">01</div>
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/></svg>
         </div>
-
-        <div class="check-item" data-key="bundle">
-          <div class="check">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          </div>
-          <div style="flex:1">
-            <h3>Boundary Check — Alle nötigen Dateien</h3>
-            <p>Ein ZIP mit drei Ordnern: <code>01_Addon/</code> (.py + README), <code>02_Docker-Container/</code> (Docker-Files) und <code>03_Beispieldateien/</code> (Beispiel-.blend + Beispiel-PDF). ZIP unter <b>Dokumente</b> ablegen und dort entpacken.</p>
-            <div class="meta"><b>boundary-check-complete.zip</b> · ~15 MB · Pflicht</div>
-          </div>
-        </div>
+        <h3>Blender 3.6 LTS oder neuer</h3>
+        <p style="margin-top:8px;flex:1">Das Add-on läuft als Python-Plugin innerhalb von Blender. Folge den Download- und Installationsanweisungen auf der offiziellen Blender-Website.</p>
+        <div class="meta" style="margin-top:12px"><b>blender.org</b> · ~280 MB · Pflicht</div>
+        <a href="https://www.blender.org/download/" target="_blank" rel="noopener" class="btn btn-ghost" style="margin-top:18px;justify-content:center">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Blender installieren
+        </a>
       </div>
 
-      <div class="download-card reveal">
-        <div class="label">Smart Download</div>
-        <h3>Boundary Check 0.4.2</h3>
-        <p>Wählen Sie Ihre Plattform und laden Sie genau das, was noch fehlt.</p>
-
-
-        <button class="smart-btn" id="smartBtn">
-          <span id="smartLabel">Vollständiges Bundle laden</span>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </button>
-
-        <div class="progress"><div class="bar" id="dlBar"></div></div>
-        <div class="progress-meta">
-          <span id="dlMeta">0 von 3 Komponenten erledigt</span>
-          <span id="dlSize">895 MB</span>
+      <!-- Docker -->
+      <div class="feature reveal" style="display:flex;flex-direction:column">
+        <div class="num">02</div>
+        <div class="icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10v4M11 10v4M15 10v4M19 10v4"/></svg>
         </div>
+        <h3>Docker Desktop</h3>
+        <p style="margin-top:8px;flex:1">Wird für die Geodaten-Pipeline benötigt. Folge den Download- und Installationsanweisungen auf der offiziellen Docker-Website.</p>
+        <div class="meta" style="margin-top:12px"><b>docker.com</b> · ~600 MB · Pflicht</div>
+        <a href="https://www.docker.com/products/docker-desktop/" target="_blank" rel="noopener" class="btn btn-ghost" style="margin-top:18px;justify-content:center">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Docker installieren
+        </a>
       </div>
+
+      <!-- Bundle -->
+      <div class="feature reveal" style="display:flex;flex-direction:column;background:var(--ink);border-color:var(--ink)">
+        <div class="num" style="color:#9aa4ba">03</div>
+        <div class="icon" style="background:rgba(255,255,255,.1);color:#fff">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg>
+        </div>
+        <h3 style="color:#fff">Boundary Check — Alle Dateien</h3>
+        <p style="margin-top:8px;flex:1;color:#aab3c4">Das ZIP enthält drei Ordner:<br>
+          <code style="color:#7faafe">01_Addon/</code> — Add-on (.py + README)<br>
+          <code style="color:#7faafe">02_Docker-Container/</code> — Docker-Files<br>
+          <code style="color:#7faafe">03_Beispieldateien/</code> — Beispiel-.blend, .ifc &amp; PDF<br><br>
+          ZIP unter <b style="color:#fff">Dokumente</b> ablegen und dort entpacken.
+        </p>
+        <div class="meta" style="margin-top:12px;color:#9aa4ba"><b style="color:#cdd5e5">boundary-check-complete.zip</b> · ~15 MB · Pflicht</div>
+        <a href="https://github.com/haslo2/bimdo-grenzcheck/raw/main/boundary-check-complete.zip" class="btn btn-accent" style="margin-top:18px;justify-content:center">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Herunterladen
+        </a>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1002,71 +996,6 @@
       e.preventDefault();
       window.scrollTo({ top: target.offsetTop - 76, behavior: "smooth" });
       document.getElementById('navLinks').classList.remove('open');
-    });
-  });
-
-  /* ============================= Smart download ============================= */
-  const components = {
-    blender: { label: "Blender 3.6 LTS",              sizeMB: 280, url: "https://www.blender.org/download/" },
-    docker:  { label: "Docker Desktop",               sizeMB: 600, url: "https://www.docker.com/products/docker-desktop/" },
-    bundle:  { label: "Boundary Check (alle Dateien)", sizeMB: 15,  url: "https://github.com/haslo2/bimdo-grenzcheck/raw/main/boundary-check-complete.zip" }
-  };
-  const state = { blender:false, docker:false, bundle:false, os:"mac" };
-
-  document.querySelectorAll('.check-item').forEach(item=>{
-    item.addEventListener('click', ()=>{
-      const k = item.dataset.key;
-      state[k] = !state[k];
-      item.classList.toggle('done', state[k]);
-      updateSmart();
-    });
-  });
-  function updateSmart(){
-    const needed = Object.keys(components).filter(k => !state[k]);
-    const haveCount = 3 - needed.length;
-    let totalMB = needed.reduce((s,k)=> s + components[k].sizeMB, 0);
-    let sizeText;
-    if(totalMB === 0) sizeText = "0 MB";
-    else if(totalMB < 1) sizeText = Math.round(totalMB*1000) + " KB";
-    else sizeText = Math.round(totalMB) + " MB";
-
-    const btn = document.getElementById('smartBtn');
-    const lbl = document.getElementById('smartLabel');
-    const bar = document.getElementById('dlBar');
-    const meta = document.getElementById('dlMeta');
-    const size = document.getElementById('dlSize');
-
-    if(needed.length === 0){
-      lbl.textContent = "Alles bereit — Add-on starten";
-      btn.disabled = false;
-      btn.style.background = "#1f7a4d";
-    } else if(needed.length === 3){
-      lbl.textContent = "Vollständiges Bundle laden";
-      btn.disabled = false;
-      btn.style.background = "";
-    } else if(needed.length === 1){
-      lbl.textContent = "Nur " + components[needed[0]].label + " laden";
-      btn.disabled = false;
-      btn.style.background = "";
-    } else {
-      lbl.textContent = needed.length + " Komponenten laden";
-      btn.disabled = false;
-      btn.style.background = "";
-    }
-
-    bar.style.width = (haveCount/3 * 100) + "%";
-    meta.textContent = haveCount + " von 3 Komponenten erledigt";
-    size.textContent = sizeText;
-  }
-  updateSmart();
-
-  document.getElementById('smartBtn').addEventListener('click', ()=>{
-    const needed = Object.keys(components).filter(k => !state[k]);
-    needed.forEach((key, i)=>{
-      const url = components[key].url;
-      if(url && url !== "#"){
-        setTimeout(()=>{ window.open(url, '_blank', 'noopener,noreferrer'); }, i * 400);
-      }
     });
   });
 
